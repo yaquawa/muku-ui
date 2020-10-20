@@ -1,6 +1,6 @@
 {
   "name": "@muku-ui/modal",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Vue modal component with the most essential features only.",
   "main": "dist/index.es.js",
   "type": "module",
