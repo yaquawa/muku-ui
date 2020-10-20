@@ -4,8 +4,7 @@ import { packagePath, assertPackageSpecified, __dirname, packageName } from './u
 
 assertPackageSpecified();
 
-buildDemo();
-runBrowserSync();
+buildDemo().then(runBrowserSync);
 
 function runBrowserSync() {
   const demoDir = `${packagePath}/demo`;

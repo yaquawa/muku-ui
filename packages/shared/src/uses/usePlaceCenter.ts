@@ -1,5 +1,6 @@
 import { watchEffect } from 'vue';
 import { useSize } from './useSize';
+import { useViewportSize } from './useViewportSize';
 
 interface Options {
   allowOverflowX: boolean;
@@ -8,13 +9,13 @@ interface Options {
 
 const DefaultOptions: Options = {
   allowOverflowX: false,
-  allowOverflowY: false
+  allowOverflowY: false,
 };
 
 export function usePlaceCenter(el: HTMLElement, options: Partial<Options> = {}) {
   options = { ...options, ...DefaultOptions };
   const { width: elWidth, height: elHeight } = useSize(el);
-  const { width: viewWidth, height: viewHeight } = useSize(document.documentElement);
+  const { width: viewWidth, height: viewHeight } = useViewportSize();
 
   el.style.position = 'absolute';
 
