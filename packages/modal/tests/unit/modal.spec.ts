@@ -2,14 +2,14 @@ import '@testing-library/jest-dom';
 import { mount } from '@vue/test-utils';
 import { wait, click, q } from '@muku-ui/shared/tests/utils';
 import {
-  modalApi,
+  api as modalApi,
   install,
   InstallOptions,
   Modal,
   AfterCloseEvent,
   AfterOpenEvent,
   BeforeCloseEvent,
-  BeforeOpenEvent
+  BeforeOpenEvent,
 } from '@muku-ui/modal';
 
 /*
@@ -19,7 +19,7 @@ import {
 */
 
 const installOptions: Partial<InstallOptions> = {
-  placeCenter: false
+  placeCenter: false,
 };
 const appContainer = document.createElement('div');
 document.body.append(appContainer);
@@ -76,16 +76,16 @@ const AppComponent = {
     afterClose(e: AfterCloseEvent) {
       expect(e).toBeInstanceOf(AfterCloseEvent);
       console.log('after close');
-    }
+    },
   },
-  components: { Modal: Modal as any }
+  components: { Modal: Modal as any },
 };
 
 const app = mount(AppComponent, {
   global: {
-    plugins: [[install, installOptions]]
+    plugins: [[install, installOptions]],
   },
-  attachTo: appContainer
+  attachTo: appContainer,
 });
 
 const backdropElement = q('#modal-backdrop');
@@ -99,7 +99,7 @@ const modals_1 = {
   openAnother() {
     click('#open-another-button');
   },
-  el: q('#modal-1')
+  el: q('#modal-1'),
 };
 
 const modals_2 = {
@@ -109,7 +109,7 @@ const modals_2 = {
   closeSelf() {
     click('#close-current-modal-button');
   },
-  el: q('#modal-2')
+  el: q('#modal-2'),
 };
 
 /*
@@ -133,7 +133,7 @@ test('Modal elements teleported into backdrop element', () => {
 });
 
 test('Modal elements are hidden by default', () => {
-  backdropElement.querySelectorAll('.modal').forEach(el => {
+  backdropElement.querySelectorAll('.modal').forEach((el) => {
     expect(el).not.toBeVisible();
   });
 });
