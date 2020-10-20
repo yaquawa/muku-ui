@@ -1,5 +1,4 @@
-import fs from 'fs';
-import path from 'path';
+import fs from 'fs-extra';
 import execa from 'execa';
 import { packageName, packagePath, argv, assertPackageSpecified } from './utils.js';
 
@@ -21,6 +20,7 @@ assertPackageSpecified();
 
 const formats = argv.formats || argv.f || 'es+cjs+iife';
 
+cleanBuilds();
 buildScripts();
 buildStyle();
 
@@ -44,7 +44,7 @@ async function buildScripts() {
   }
 
   await execa('rollup', rollupArgs, {
-    stdio: 'inherit'
+    stdio: 'inherit',
   });
 }
 
@@ -52,7 +52,7 @@ function buildStyle() {
   const stylePath = `${packagePath}/assets/style.scss`;
   const outputStylePath = `${packagePath}/dist/style.css`;
 
-  if (!fs.existsSync(stylePath)) {
+  if (!fs.pathExistsSync(stylePath)) {
     return;
   }
 
@@ -63,6 +63,11 @@ function buildStyle() {
   }
 
   execa('sass', sassArgs, {
-    stdio: 'inherit'
+    stdio: 'inherit',
   });
+}
+
+function cleanBuilds() {
+  const distDir = `${packagePath}/dist`;
+  fs.removeSync(distDir);
 }
