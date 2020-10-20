@@ -1,0 +1,27 @@
+{
+  "name": "muku-ui",
+  "version": "1.0.0",
+  "description": "Vue 3 UI components with dead minimal functions.",
+  "main": "dist/index.es.js",
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yaquawa/muku-ui.git"
+  },
+  "keywords": [
+    "vue",
+    "ui"
+  ],
+  "bugs": {
+    "url": "https://github.com/yaquawa/muku-ui/issues"
+  },
+  "homepage": "https://github.com/yaquawa/muku-ui",
+  "devDependencies": {
+    "@muku-ui/modal": "^1.0.0",
+    "@muku-ui/shared": "^1.0.0"
+  }
+}

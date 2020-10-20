@@ -1,0 +1,25 @@
+{
+  "name": "@muku-ui/modal",
+  "version": "1.0.0",
+  "description": "Vue modal component with the most essential features only.",
+  "main": "dist/index.es.js",
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "assets"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yaquawa/muku-ui.git",
+    "directory": "packages/modal"
+  },
+  "keywords": [
+    "vue",
+    "ui"
+  ],
+  "bugs": {
+    "url": "https://github.com/yaquawa/muku-ui/issues"
+  },
+  "homepage": "https://github.com/yaquawa/muku-ui/master/packages/modal#readme"
+}
