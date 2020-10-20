@@ -8,6 +8,10 @@
   "files": [
     "dist"
   ],
+  "dependencies": {
+    "@muku-ui/modal": "^1.0.0",
+    "@muku-ui/shared": "^1.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yaquawa/muku-ui.git"
@@ -19,9 +23,5 @@
   "bugs": {
     "url": "https://github.com/yaquawa/muku-ui/issues"
   },
-  "homepage": "https://github.com/yaquawa/muku-ui",
-  "devDependencies": {
-    "@muku-ui/modal": "^1.0.0",
-    "@muku-ui/shared": "^1.0.0"
-  }
+  "homepage": "https://github.com/yaquawa/muku-ui"
 }
