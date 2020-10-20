@@ -56,7 +56,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import {
-  modalApi,
+  api as modalApi,
   Modal,
   AfterCloseEvent,
   AfterOpenEvent,

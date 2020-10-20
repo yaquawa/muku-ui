@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { setBackdrop } from '../Backdrop';
-import { modalApi } from '../Api';
+import { api as modalApi } from '../Api';
 import { BackdropComponentInternalInstance } from '../types';
 import { defineComponent, getCurrentInstance, ref } from 'vue';
 

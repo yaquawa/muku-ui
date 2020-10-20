@@ -19,14 +19,14 @@ Here is an example to install the **modal** component.
 
 ```js
 import { createApp } from 'vue'
-import { installModal } from 'muku-ui'
+import { modalPlugin } from 'muku-ui'
 
 // for those who only need styles for animation
 import '@muku-ui/modal/assets/_animation.scss'
 
 const app = createApp({
   template: `<modal name="foo">Hi</modal>`
-}).use(installModal);
+}).use(modalPlugin);
 ```
 
 For the detailed usage of each component, please refer their respective `README.md` under `packages` directory.

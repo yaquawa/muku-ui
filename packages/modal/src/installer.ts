@@ -1,4 +1,4 @@
-import { modalApi } from './Api';
+import { api as modalApi } from './Api';
 import { App, createApp } from 'vue';
 import { InstallOptions } from './types';
 import Modal from './components/Modal.vue';

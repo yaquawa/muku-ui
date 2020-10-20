@@ -126,5 +126,5 @@ class Api {
   }
 }
 
-export const modalApi = new Api();
+export const api = new Api();
 export { currentCloseEventData, currentOpenEventData };

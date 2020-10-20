@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { modalApi, currentCloseEventData, currentOpenEventData } from '../Api';
+import { api as modalApi, currentCloseEventData, currentOpenEventData } from '../Api';
 import { ModalRepository } from '../ModalRepository';
 import { ModalComponentInternalInstance, ModalModel } from '../types';
 import { getCurrentInstance, defineComponent, onMounted, ref } from 'vue';
