@@ -46,6 +46,9 @@ async function buildScripts() {
   await execa('rollup', rollupArgs, {
     stdio: 'inherit',
   });
+
+  // remove types dir
+  fs.removeSync(`${packagePath}/dist/types`);
 }
 
 function buildStyle() {
