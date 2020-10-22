@@ -1,6 +1,6 @@
 {
   "name": "@muku-ui/shared",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Internal utils shared across @muku-ui packages.",
   "main": "dist/index.es.js",
   "type": "module",

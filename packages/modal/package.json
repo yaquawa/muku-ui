@@ -1,6 +1,6 @@
 {
   "name": "@muku-ui/modal",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Vue modal component with the most essential features only.",
   "main": "dist/index.es.js",
   "type": "module",
@@ -10,7 +10,7 @@
     "assets"
   ],
   "dependencies": {
-    "@muku-ui/shared": "^1.0.3"
+    "@muku-ui/shared": "^1.0.4"
   },
   "repository": {
     "type": "git",
