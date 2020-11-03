@@ -27,7 +27,8 @@ buildStyle();
 async function buildScripts() {
   const buildDemo = argv.demo;
   const shouldWatch = argv.w || argv.watch;
-  const rollupEnv = [`PACKAGE:${packageName}`, `FORMATS:${formats}`];
+  const env = argv.env || 'production';
+  const rollupEnv = [`PACKAGE:${packageName}`, `FORMATS:${formats}`, `NODE_ENV:${env}`];
 
   if (buildDemo) {
     rollupEnv.push('DEMO');

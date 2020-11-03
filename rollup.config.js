@@ -6,6 +6,7 @@ import dtsPlugin from 'rollup-plugin-dts';
 import scssPlugin from 'rollup-plugin-scss';
 import tsPlugin from 'rollup-plugin-typescript2';
 import resolveNodePlugin from '@rollup/plugin-node-resolve';
+import injectProcessEnvPlugin from 'rollup-plugin-inject-process-env';
 
 const packageName = process.env.PACKAGE;
 
@@ -32,9 +33,9 @@ if (process.env.BUILD_TYPES) {
     input: `${packagePath}/dist/types/${packageName}/src/index.d.ts`,
     output: {
       file: `${packagePath}/dist/index.d.ts`,
-      format: 'es'
+      format: 'es',
     },
-    plugins: [dtsPlugin()]
+    plugins: [dtsPlugin()],
   };
 
   configs.push(typeConfig);
@@ -47,25 +48,28 @@ function createConfig(entryFilePath, outFileBaseName = null, options = {}) {
 
   return {
     input: entryFilePath,
-    output: formats.map(format => createOutputConfig(outFileBaseName, format)),
+    output: formats.map((format) => createOutputConfig(outFileBaseName, format)),
     plugins: [
       tsPlugin({
         useTsconfigDeclarationDir: true,
         tsconfigOverride: {
           compilerOptions: {
-            declarationDir: `${packagePath}/dist/types`
-          }
-        }
+            declarationDir: `${packagePath}/dist/types`,
+          },
+        },
       }),
       scssPlugin({
         sass,
-        output: `${packagePath}/dist/${outFileBaseName}.css`
+        output: `${packagePath}/dist/${outFileBaseName}.css`,
       }),
       vuePlugin(),
-      resolveNodePlugin()
+      injectProcessEnvPlugin({
+        NODE_ENV: process.env.NODE_ENV,
+      }),
+      resolveNodePlugin(),
     ],
     external: ['vue'],
-    ...options
+    ...options,
   };
 }
 
@@ -74,13 +78,13 @@ function createOutputConfig(outFileBaseName, format) {
     file: `${packagePath}/dist/${outFileBaseName}.${format}.js`,
     sourcemap: true,
     externalLiveBindings: false,
-    format
+    format,
   };
 
   if (format === 'iife') {
     outputConfig.name = 'Muku' + capitalize(packageName);
     outputConfig.globals = {
-      vue: 'Vue'
+      vue: 'Vue',
     };
   }
 
