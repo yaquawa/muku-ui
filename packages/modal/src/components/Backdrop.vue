@@ -23,7 +23,7 @@ function useBackdrop() {
   setBackdrop({ instance, ctx });
 
   // support escape key to close
-  window.addEventListener('keyup', e => {
+  window.addEventListener('keyup', (e) => {
     if (show.value && e.code === 'Escape') {
       close();
     }
@@ -36,9 +36,9 @@ export default defineComponent({
   name: 'Backdrop',
   setup() {
     const { show, close } = useBackdrop();
-    const backdropStyle = modalApi.getConfig('backdropStyle');
+    const backdropStyle = modalApi.config.get('backdropStyle');
 
     return { show, close, backdropStyle };
-  }
+  },
 });
 </script>

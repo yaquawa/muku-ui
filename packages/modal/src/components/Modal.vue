@@ -1,6 +1,6 @@
 <template>
   <teleport to="#modal-backdrop">
-    <transition name="modal" @after-enter="emitAfterOpen" @after-leave="emitAfterClose" ref="transition">
+    <transition name="modal" @after-enter="emitAfterOpen" @after-leave="emitAfterClose">
       <div class="modal" ref="modal" v-show="show" v-bind="$attrs">
         <slot :close="close" :open="open" :closeAll="closeAll"></slot>
       </div>
@@ -36,11 +36,11 @@ function useModal(modalName: string) {
 
   ModalRepository.add(modalName, { instance, ctx });
 
-  if (modalApi.getConfig('placeCenter')) {
+  if (modalApi.config.get('placeCenter')) {
     onMounted(() => {
       usePlaceCenter(instance.refs.modal as HTMLElement, {
         allowOverflowX: false,
-        allowOverflowY: false
+        allowOverflowY: false,
       });
     });
   }
@@ -53,12 +53,12 @@ export default defineComponent({
   props: {
     name: {
       type: String,
-      required: true
+      required: true,
     },
     persistent: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   emits: ['before-close', 'after-close', 'before-open', 'after-open'],
   setup(props) {
@@ -70,6 +70,6 @@ export default defineComponent({
       model.instance.emit('after-close', new AfterCloseEvent(model, currentCloseEventData));
 
     return { show, close, open, closeAll, emitAfterClose, emitAfterOpen };
-  }
+  },
 });
 </script>

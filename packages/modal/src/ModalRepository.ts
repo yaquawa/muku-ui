@@ -21,7 +21,7 @@ const ModalRepository = {
 
   get(modalName: string): ModalModel | undefined {
     return modals.get(modalName);
-  }
+  },
 };
 
 export { ModalRepository };

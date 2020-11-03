@@ -6,7 +6,7 @@ const app = createApp(App);
 
 const options: Partial<InstallOptions> = {
   backdropStyle: { backgroundColor: 'rgba(0,0,0,0.8)' },
-  placeCenter: true
+  placeCenter: true,
 };
 
 app.use(install, options);

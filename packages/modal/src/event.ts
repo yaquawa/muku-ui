@@ -11,7 +11,7 @@ export enum EventType {
   BeforeClose = 'before-close',
   AfterClose = 'after-close',
   BeforeOpen = 'before-open',
-  AfterOpen = 'after-open'
+  AfterOpen = 'after-open',
 }
 
 export class Event {

@@ -3,22 +3,23 @@ import { InstallOptions, ModalModel } from './types';
 import { Backdrop } from './Backdrop';
 import { MapStack } from 'mapstack';
 import { BeforeCloseEvent, BeforeOpenEvent, EventData, EventType } from './event';
+import { Config } from '@muku-ui/shared';
 
 const currentOpenedModals = new MapStack<ModalModel>();
-
-let options: InstallOptions;
 
 let currentOpenEventData: EventData;
 
 let currentCloseEventData: EventData;
 
-const DefaultOptions: InstallOptions = {
+const defaultInstallOptions: InstallOptions = {
   backdropStyle: {},
   registerComponent: true,
   placeCenter: true,
 };
 
 class Api {
+  public config: Config<InstallOptions> = new Config<InstallOptions>({}, defaultInstallOptions);
+
   openModal(modalName: string, eventData: EventData = {}): void {
     const modal = this.getModal(modalName);
 
@@ -89,36 +90,6 @@ class Api {
 
   getModal(modalName: string): ModalModel | undefined {
     return ModalRepository.get(modalName);
-  }
-
-  setConfig(options: Partial<InstallOptions>): InstallOptions;
-  setConfig<OptionName extends keyof InstallOptions>(
-    key: OptionName,
-    value: InstallOptions[OptionName]
-  ): InstallOptions;
-  setConfig<OptionName extends keyof InstallOptions>(
-    keyOrOptions: Partial<InstallOptions> | OptionName,
-    value?: InstallOptions[OptionName]
-  ): InstallOptions {
-    if (arguments.length === 1 && typeof keyOrOptions === 'object') {
-      options = { ...DefaultOptions, ...keyOrOptions };
-    } else if (arguments.length === 2 && typeof keyOrOptions === 'string') {
-      options[keyOrOptions] = value as InstallOptions[OptionName];
-    }
-
-    return options;
-  }
-
-  getConfig(): InstallOptions;
-  getConfig<OptionName extends keyof InstallOptions>(key: OptionName): InstallOptions[OptionName];
-  getConfig<OptionName extends keyof InstallOptions>(
-    key?: OptionName
-  ): InstallOptions | InstallOptions[OptionName] {
-    if (key) {
-      return options[key];
-    }
-
-    return options;
   }
 
   getCurrentOpenedModal(): ModalModel | undefined {

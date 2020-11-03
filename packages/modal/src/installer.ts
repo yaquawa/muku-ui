@@ -10,11 +10,11 @@ function createBackdrop() {
 }
 
 export function install(app: App, options: Partial<InstallOptions> = {}) {
-  const configs = modalApi.setConfig(options);
+  const configs = modalApi.config.set(options);
 
   createBackdrop();
 
-  if (configs.registerComponent) {
+  if (configs.get('registerComponent')) {
     app.component('modal', Modal);
   }
 
