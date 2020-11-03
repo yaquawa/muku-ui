@@ -39,7 +39,7 @@ function getPaddingBorderSize(el: Element) {
       parseInt(computedStyle.paddingTop, 10) +
       parseInt(computedStyle.paddingBottom, 10) +
       parseInt(computedStyle.borderTop, 10) +
-      parseInt(computedStyle.borderBottom, 10)
+      parseInt(computedStyle.borderBottom, 10),
   };
 }
 
@@ -52,7 +52,7 @@ export function useSize(el: Element, borderBox = true) {
   const width = ref(el.clientWidth + extraSize.width);
   const height = ref(el.clientHeight + extraSize.height);
 
-  const resizeObserver = new ResizeObserver(entries => {
+  const resizeObserver = new ResizeObserver((entries) => {
     const entry = entries[0];
     const extraSize = getExtraSize(entry.target, borderBox);
     const newWidth = entry.contentRect.width + extraSize.width;
