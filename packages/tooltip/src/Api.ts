@@ -3,6 +3,7 @@ import { Config } from '@muku-ui/shared';
 
 const defaultInstallOptions: InstallOptions = {
   registerComponent: true,
+  zIndex: 1,
 };
 
 class Api {

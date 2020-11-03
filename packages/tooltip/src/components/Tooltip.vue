@@ -2,7 +2,7 @@
   <teleport to="body">
     <div
       ref="tooltip"
-      style="display: none"
+      :style="tooltipStyle"
       tabindex="0"
       class="muku-clear-outline-on-focus"
       :data-tooltip-placement="currentPlacement"
@@ -14,10 +14,10 @@
         @after-enter="afterEnter"
       >
         <div v-visible="show" style="position: relative">
-          <div class="__arrow" v-if="arrow" ref="arrow"></div>
           <div v-bind="$attrs">
             <slot></slot>
           </div>
+          <div class="__arrow" v-if="arrow" ref="arrow"></div>
         </div>
       </transition>
     </div>
@@ -31,11 +31,12 @@
 </style>
 
 <script lang="ts">
-import { createPopper, Placement, Padding, Instance as PopperInstance } from '@popperjs/core';
-import { getCurrentInstance, onMounted, defineComponent, PropType, ref } from 'vue';
+import { api } from '../Api';
+import { offsetByPadding } from '../popperModifiers';
 import { ComponentInternalInstance } from '@vue/runtime-core';
 import { hasClosestElement } from '@muku-ui/shared/src/dom/utils';
-import { offsetByPadding } from '../popperModifiers';
+import { getCurrentInstance, onMounted, defineComponent, PropType, ref, reactive } from 'vue';
+import { createPopper, Placement, Padding, Instance as PopperInstance } from '@popperjs/core';
 
 export default defineComponent({
   props: {
@@ -75,6 +76,10 @@ export default defineComponent({
       type: Array as PropType<Array<'mouseleave' | 'blur'>>,
       default: () => ['mouseleave', 'blur'],
     },
+    zIndex: {
+      type: Number,
+      default: () => api.config.get('zIndex'),
+    },
   },
 
   directives: {
@@ -101,20 +106,25 @@ export default defineComponent({
     const instance = getCurrentInstance() as ComponentInternalInstance;
     const show = ref(false);
     const currentPlacement = ref(props.placement);
+    const tooltipStyle = reactive({
+      display: 'none',
+      zIndex: props.zIndex,
+      pointerEvents: props.interactive ? '' : 'none',
+    });
     let popper: PopperInstance | null;
 
     const beforeEnter = () => {
-      (instance.refs.tooltip as HTMLElement).style.pointerEvents = 'none';
+      tooltipStyle.pointerEvents = 'none';
     };
 
     const afterEnter = () => {
       if (props.interactive) {
-        (instance.refs.tooltip as HTMLElement).style.pointerEvents = '';
+        tooltipStyle.pointerEvents = '';
       }
     };
 
     const afterLeave = () => {
-      (instance.refs.tooltip as HTMLElement).style.display = 'none';
+      tooltipStyle.display = 'none';
       destroyPopper();
     };
 
@@ -186,14 +196,11 @@ export default defineComponent({
             },
           ],
         });
-
-        if (!props.interactive) {
-          tooltipElem.style.pointerEvents = 'none';
-        }
       }
 
       function showTooltip() {
-        tooltipElem.style.display = '';
+        tooltipStyle.display = '';
+
         show.value = true;
 
         createTooltip();
@@ -213,7 +220,7 @@ export default defineComponent({
       }
     });
 
-    return { show, currentPlacement, afterLeave, beforeEnter, afterEnter };
+    return { show, currentPlacement, afterLeave, beforeEnter, afterEnter, tooltipStyle };
   },
 });
 </script>

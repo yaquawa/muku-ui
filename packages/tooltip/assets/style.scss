@@ -1,2 +1,5 @@
-@use "tooltip";
-@use "animation";
+@use "tooltip" as *;
+@use "animation" as *;
+
+@include tooltip();
+@include animation();

@@ -7,7 +7,14 @@
 
     <div>
       <button id="button-2">Button</button>
-      <tooltip activator="#button-2" :hide-events="[]" placement="left" class="tooltip" offset="10">
+      <tooltip
+        activator="#button-2"
+        :hide-events="[]"
+        placement="top"
+        class="tooltip"
+        offset="10"
+        :arrowPadding="20"
+      >
         <div>Tooltip 2</div>
         <div>Tooltip 2</div>
         <div>Tooltip 2</div>
@@ -79,5 +86,6 @@ button {
   outline: none;
   cursor: pointer;
   width: 100%;
+  height: 100px;
 }
 </style>

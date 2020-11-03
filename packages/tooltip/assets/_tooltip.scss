@@ -1,55 +1,134 @@
-@use "./mixins" as *;
 @use "sass:list";
+@use "./mixins" as *;
 
-$color: white !default;
-$arrow-width: 13px !default;
-$arrow-height: 6px !default;
-$background-color: rgba(0, 0, 0, 0.9) !default;
-$className: 'tooltip' !default;
+@mixin tooltip(
+  $color: white,
+  $padding: 0,
+  $shadow: none,
+  $arrow-width: 13px,
+  $arrow-height: 6px,
+  $arrow-border-offset: 2px,
+  $tooltipSelector: '.tooltip',
+  $background-color: #434343,
+  $border-color: null,
+) {
+  $arrow-size: ($arrow-width, $arrow-height);
 
-$arrow-size: ($arrow-width, $arrow-height);
+  #{$tooltipSelector} {
+    background-color: $background-color;
+    color: $color;
+    padding: $padding;
+    border-radius: 4px;
+    box-shadow: $shadow;
+    @if $border-color {
+      border: 1px solid $border-color;
+    }
+  }
 
-@mixin arrow($direction) {
-  @include triangle($arrow-size, $background-color, $direction);
-}
+  [data-tooltip-placement] {
+    .__arrow {
+      &::after {
+        position: absolute;
+        left: 0;
+        top: 0;
+        content: '';
+        display: block;
+      }
 
-.#{$className} {
-  background-color: $background-color;
-  color: $color;
-  padding: 0.1em 0.5em;
-  border-radius: 4px;
-}
+      @if $border-color {
+        &::before {
+          position: absolute;
+          left: 0;
+          top: 0;
+          content: '';
+          display: block;
+        }
+      }
+    }
+  }
 
-[data-tooltip-placement] {
-  .__arrow {
-    position: absolute;
+  [data-tooltip-placement^="top"] {
+    #{$tooltipSelector} + .__arrow {
+      width: $arrow-width;
+      height: $arrow-height;
+      bottom: -#{$arrow-height - 1px};
+
+      &::after {
+        @include triangle($arrow-size, $background-color, down);
+        @if $border-color {
+          transform: translateY(-#{$arrow-border-offset});
+        }
+      }
+
+      @if $border-color {
+        &::before {
+          @include triangle($arrow-size, $border-color, down);
+        }
+      }
+    }
+  }
+
+  [data-tooltip-placement^="bottom"] {
+    #{$tooltipSelector} + .__arrow {
+      width: $arrow-width;
+      height: $arrow-height;
+      top: -#{$arrow-height - 1px};
+
+      &::after {
+        @include triangle($arrow-size, $background-color, up);
+        @if $border-color {
+          transform: translateY(#{$arrow-border-offset});
+        }
+      }
+
+      @if $border-color {
+        &::before {
+          @include triangle($arrow-size, $border-color, up);
+        }
+      }
+    }
+  }
+
+  [data-tooltip-placement^="left"] {
+    #{$tooltipSelector} + .__arrow {
+      right: -#{$arrow-height - 1px};
+      width: $arrow-height;
+      height: $arrow-width;
+
+      &::after {
+        @include triangle($arrow-size, $background-color, right);
+        @if $border-color {
+          transform: translateX(-#{$arrow-border-offset});
+        }
+      }
+
+      @if $border-color {
+        &::before {
+          @include triangle($arrow-size, $border-color, right);
+        }
+      }
+    }
+  }
+
+  [data-tooltip-placement^="right"] {
+    #{$tooltipSelector} + .__arrow {
+      left: -#{$arrow-height - 1px};
+      width: $arrow-height;
+      height: $arrow-width;
+
+      &::after {
+        @include triangle($arrow-size, $background-color, left);
+        @if $border-color {
+          transform: translateX(#{$arrow-border-offset});
+        }
+      }
+
+      @if $border-color {
+        &::before {
+          @include triangle($arrow-size, $border-color, left);
+        }
+      }
+    }
   }
 }
 
-[data-tooltip-placement^="top"] {
-  .__arrow {
-    bottom: -#{$arrow-height};
-    @include arrow(down);
-  }
-}
-
-[data-tooltip-placement^="bottom"] {
-  .__arrow {
-    top: -#{$arrow-height};
-    @include arrow(up);
-  }
-}
-
-[data-tooltip-placement^="left"] {
-  .__arrow {
-    right: -#{$arrow-height};
-    @include arrow(right);
-  }
-}
-
-[data-tooltip-placement^="right"] {
-  .__arrow {
-    left: -#{$arrow-height};
-    @include arrow(left);
-  }
-}
