@@ -1,6 +1,6 @@
 {
   "name": "@muku-ui/tooltip",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "Vue tooltip component with the most essential features only.",
   "main": "dist/index.es.js",
   "type": "module",
