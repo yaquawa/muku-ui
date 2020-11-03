@@ -1,0 +1,18 @@
+.tooltip-enter-active {
+    transition: transform 0.2s ease-out, opacity 0.1s ease-out;
+}
+
+.tooltip-leave-active {
+    transition: transform 0.15s ease-in, opacity 0.1s ease-out;
+}
+
+.tooltip-enter-from {
+    transition: none;
+}
+
+.tooltip-enter-from,
+.tooltip-leave-to {
+    transform: translateY(-20px) scale(0.96);
+    opacity: 0;
+}
+

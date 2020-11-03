@@ -1,0 +1,55 @@
+@use "./mixins" as *;
+@use "sass:list";
+
+$color: white !default;
+$arrow-width: 13px !default;
+$arrow-height: 6px !default;
+$background-color: rgba(0, 0, 0, 0.9) !default;
+$className: 'tooltip' !default;
+
+$arrow-size: ($arrow-width, $arrow-height);
+
+@mixin arrow($direction) {
+  @include triangle($arrow-size, $background-color, $direction);
+}
+
+.#{$className} {
+  background-color: $background-color;
+  color: $color;
+  padding: 0.1em 0.5em;
+  border-radius: 4px;
+}
+
+[data-tooltip-placement] {
+  .__arrow {
+    position: absolute;
+  }
+}
+
+[data-tooltip-placement^="top"] {
+  .__arrow {
+    bottom: -#{$arrow-height};
+    @include arrow(down);
+  }
+}
+
+[data-tooltip-placement^="bottom"] {
+  .__arrow {
+    top: -#{$arrow-height};
+    @include arrow(up);
+  }
+}
+
+[data-tooltip-placement^="left"] {
+  .__arrow {
+    right: -#{$arrow-height};
+    @include arrow(right);
+  }
+}
+
+[data-tooltip-placement^="right"] {
+  .__arrow {
+    left: -#{$arrow-height};
+    @include arrow(left);
+  }
+}
