@@ -1,6 +1,5 @@
 {
   "private": true,
-  "version": "1.0.0",
   "workspaces": [
     "packages/*"
   ],
@@ -64,19 +63,5 @@
     "*.{js,jsx,vue,ts,tsx}": [
       "eslint --fix"
     ]
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/yaquawa/muku-ui.git",
-    "directory": "packages/modal"
-  },
-  "keywords": [
-    "modal",
-    "vuejs"
-  ],
-  "bugs": {
-    "url": "https://github.com/yaquawa/muku-ui/issues"
-  },
-  "homepage": "https://github.com/yaquawa/muku-ui",
-  "license": "MIT"
+  }
 }
