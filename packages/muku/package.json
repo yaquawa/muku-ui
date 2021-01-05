@@ -11,7 +11,7 @@
   "dependencies": {
     "@muku-ui/modal": "^1.0.5",
     "@muku-ui/shared": "^1.0.5",
-    "@muku-ui/tooltip": "^1.0.7"
+    "@muku-ui/tooltip": "^1.0.8"
   },
   "repository": {
     "type": "git",

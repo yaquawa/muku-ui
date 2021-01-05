@@ -8,13 +8,13 @@
   $arrow-width: 13px,
   $arrow-height: 6px,
   $arrow-border-offset: 2px,
-  $tooltipSelector: '.tooltip',
+  $selector: '.tooltip',
   $background-color: #434343,
   $border-color: null,
 ) {
   $arrow-size: ($arrow-width, $arrow-height);
 
-  #{$tooltipSelector} {
+  #{$selector} {
     background-color: $background-color;
     color: $color;
     padding: $padding;
@@ -48,7 +48,7 @@
   }
 
   [data-tooltip-placement^="top"] {
-    #{$tooltipSelector} + .__arrow {
+    #{$selector} + .__arrow {
       width: $arrow-width;
       height: $arrow-height;
       bottom: -#{$arrow-height - 1px};
@@ -69,7 +69,7 @@
   }
 
   [data-tooltip-placement^="bottom"] {
-    #{$tooltipSelector} + .__arrow {
+    #{$selector} + .__arrow {
       width: $arrow-width;
       height: $arrow-height;
       top: -#{$arrow-height - 1px};
@@ -90,7 +90,7 @@
   }
 
   [data-tooltip-placement^="left"] {
-    #{$tooltipSelector} + .__arrow {
+    #{$selector} + .__arrow {
       right: -#{$arrow-height - 1px};
       width: $arrow-height;
       height: $arrow-width;
@@ -111,7 +111,7 @@
   }
 
   [data-tooltip-placement^="right"] {
-    #{$tooltipSelector} + .__arrow {
+    #{$selector} + .__arrow {
       left: -#{$arrow-height - 1px};
       width: $arrow-height;
       height: $arrow-width;
