@@ -42,7 +42,8 @@ test('Tooltip element appended to body after installation', () => {
   expect(tooltip_1).not.toBeVisible();
 });
 
-test('Show tooltip when click on the activator', () => {
-  click(activator_1);
+test('Show tooltip when click on the activator', async () => {
+  expect(tooltip_1).not.toBeVisible();
+  await click(activator_1);
   expect(tooltip_1).toBeVisible();
 });
