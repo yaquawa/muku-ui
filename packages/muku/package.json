@@ -1,6 +1,6 @@
 {
   "name": "muku-ui",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Vue 3 UI components with dead minimal functions.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
@@ -9,9 +9,9 @@
     "dist"
   ],
   "dependencies": {
-    "@muku-ui/modal": "^1.0.5",
-    "@muku-ui/shared": "^1.0.5",
-    "@muku-ui/tooltip": "^1.0.9"
+    "@muku-ui/modal": "^1.0.10",
+    "@muku-ui/shared": "^1.0.10",
+    "@muku-ui/tooltip": "^1.0.10"
   },
   "repository": {
     "type": "git",

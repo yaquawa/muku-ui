@@ -1,6 +1,6 @@
 {
   "name": "@muku-ui/shared",
-  "version": "1.0.5",
+  "version": "1.0.10",
   "description": "Internal utils shared across @muku-ui packages.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
