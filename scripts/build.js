@@ -1,8 +1,7 @@
-import fs from 'fs-extra';
-import execa from 'execa';
-import { packageName, packagePath, argv, assertPackageSpecified } from './utils.js';
-
-assertPackageSpecified();
+import fs from 'fs-extra'
+import execa from 'execa'
+import chalk from 'chalk'
+import { packageNames, packagesPath, argv, assertPackageSpecified } from './utils.js'
 
 /*
 |---------------------------------------------------------------------------
@@ -18,60 +17,73 @@ assertPackageSpecified();
 |
 */
 
-const formats = argv.formats || argv.f || 'es+cjs+iife';
+const formats = argv.formats || argv.f || 'es+cjs+iife'
 
-cleanBuilds();
-buildScripts();
-buildStyle();
+packageNames.forEach((packageName) => {
+  assertPackageSpecified(packageName)
+  const packageObj = {
+    name: packageName,
+    path: `${packagesPath}/${packageName}`,
+  }
+  cleanBuilds(packageObj)
+  buildScripts(packageObj)
+  buildStyle(packageObj)
+})
 
-async function buildScripts() {
-  const buildDemo = argv.demo;
-  const shouldWatch = argv.w || argv.watch;
-  const env = argv.env || 'production';
-  const rollupEnv = [`PACKAGE:${packageName}`, `FORMATS:${formats}`, `NODE_ENV:${env}`];
+async function buildScripts(packageObj) {
+  console.log(`Building package ${chalk.blue(packageObj.name)}`)
+
+  const buildDemo = argv.demo
+  const shouldWatch = argv.w || argv.watch
+  const env = argv.env || 'production'
+  const rollupEnv = [`PACKAGE:${packageObj.name}`, `FORMATS:${formats}`, `NODE_ENV:${env}`]
 
   if (buildDemo) {
-    rollupEnv.push('DEMO');
+    rollupEnv.push('DEMO')
   }
 
   if (!shouldWatch && !buildDemo) {
-    rollupEnv.push('BUILD_TYPES');
+    rollupEnv.push('BUILD_TYPES')
   }
 
-  const rollupArgs = ['-c', '--environment', rollupEnv.filter(Boolean).join(',')];
+  const rollupArgs = ['-c', '--environment', rollupEnv.filter(Boolean).join(',')]
 
   if (shouldWatch) {
-    rollupArgs.push('--watch');
+    rollupArgs.push('--watch')
   }
 
   await execa('rollup', rollupArgs, {
     stdio: 'inherit',
-  });
+  })
 
   // remove types dir
-  fs.removeSync(`${packagePath}/dist/types`);
+  fs.removeSync(`${packageObj.path}/dist/types`)
 }
 
-function buildStyle() {
-  const stylePath = `${packagePath}/assets/style.scss`;
-  const outputStylePath = `${packagePath}/dist/style.css`;
+function buildStyle(packageObj) {
+  console.log(`Building style of ${chalk.blue(packageObj.name)}`)
+
+  const stylePath = `${packageObj.path}/assets/style.scss`
+  const outputStylePath = `${packageObj.path}/dist/style.css`
 
   if (!fs.pathExistsSync(stylePath)) {
-    return;
+    return
   }
 
-  const sassArgs = [stylePath, outputStylePath];
+  const sassArgs = [stylePath, outputStylePath]
 
   if (argv.watch) {
-    sassArgs.push('--watch');
+    sassArgs.push('--watch')
   }
 
   execa('sass', sassArgs, {
     stdio: 'inherit',
-  });
+  })
 }
 
-function cleanBuilds() {
-  const distDir = `${packagePath}/dist`;
-  fs.removeSync(distDir);
+function cleanBuilds(packageObj) {
+  console.log(`Cleaning builds of ${chalk.blue(packageObj.name)}`)
+
+  const distDir = `${packageObj.path}/dist`
+  fs.removeSync(distDir)
 }

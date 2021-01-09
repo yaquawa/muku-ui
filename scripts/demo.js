@@ -1,14 +1,16 @@
-import execa from 'execa';
-import browserSync from 'browser-sync';
-import { packagePath, assertPackageSpecified, __dirname, packageName } from './utils.js';
+import execa from 'execa'
+import browserSync from 'browser-sync'
+import { packageNames, packagesPath, assertPackageSpecified, __dirname } from './utils.js'
 
-assertPackageSpecified();
+const packageName = packageNames[0]
+const packagePath = `${packagesPath}/${packageName}`
+assertPackageSpecified(packageName)
 
-buildDemo().then(runBrowserSync);
+buildDemo().then(runBrowserSync)
 
 function runBrowserSync() {
-  const demoDir = `${packagePath}/demo`;
-  const distDir = `${packagePath}/dist`;
+  const demoDir = `${packagePath}/demo`
+  const distDir = `${packagePath}/dist`
 
   browserSync({
     server: demoDir,
@@ -19,19 +21,19 @@ function runBrowserSync() {
       {
         match: [`${demoDir}/*.(ts|vue)`, `${packagePath}/src/**/*.(ts|vue)`],
         fn: async function (event, file) {
-          console.log(`Recompile file: ${file}`);
+          console.log(`Recompile file: ${file}`)
 
-          await buildDemo();
-          this.reload();
+          await buildDemo()
+          this.reload()
         },
       },
     ],
-  });
+  })
 }
 
 function buildDemo() {
-  console.log('Building demo...');
-  return execa('node', [__dirname + '/build.js', packageName, '--demo', '--formats=iife'], {
+  console.log(`Building ${packageName} demo...`)
+  return execa('node', [`${__dirname}/build.js`, packageName, '--demo', '--formats=iife'], {
     stdio: 'inherit',
-  });
+  })
 }

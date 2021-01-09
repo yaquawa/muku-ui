@@ -1,21 +1,24 @@
-import fs from 'fs';
-import path from 'path';
-import minimist from 'minimist';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import fs from 'fs'
+import path from 'path'
+import minimist from 'minimist'
+import { dirname } from 'path'
+import { fileURLToPath } from 'url'
 
-export const __filename = fileURLToPath(import.meta.url);
-export const __dirname = dirname(__filename);
-export const argv = minimist(process.argv.slice(2));
-export const packageName = argv._[0];
-export const packagePath = path.resolve(__dirname + '/../packages/', packageName);
+export const __filename = fileURLToPath(import.meta.url)
+export const __dirname = dirname(__filename)
+export const argv = minimist(process.argv.slice(2))
+export const packagesPath = path.resolve(__dirname + '/../packages/')
+export const packageNames = argv._.length ? argv._ : getAllPackageNames()
 
-export function assertPackageSpecified() {
-  if (!packageName) {
-    throw new Error('No package specified.');
+export function assertPackageSpecified(packageName) {
+  if (!fs.existsSync(`${packagesPath}/${packageName}`)) {
+    throw new Error(`Incorrect package name '${packageName}'.`)
   }
+}
 
-  if (!fs.existsSync(packagePath)) {
-    throw new Error(`Incorrect package name '${packageName}'.`);
-  }
+export function getAllPackageNames() {
+  return fs
+    .readdirSync(packagesPath, { withFileTypes: true })
+    .filter((dirent) => dirent.isDirectory())
+    .map((dirent) => dirent.name)
 }
