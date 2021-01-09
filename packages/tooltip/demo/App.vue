@@ -45,8 +45,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { Tooltip } from '@muku-ui/tooltip';
+import { defineComponent } from 'vue'
+import { Tooltip } from '@muku-ui/tooltip'
 
 export default defineComponent({
   name: 'App',
@@ -56,9 +56,9 @@ export default defineComponent({
   data() {
     return {
       cancelEvent: false,
-    };
+    }
   },
-});
+})
 </script>
 
 <style>

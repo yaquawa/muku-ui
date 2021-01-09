@@ -1,7 +1,7 @@
-import '@testing-library/jest-dom';
-import { mount } from '@vue/test-utils';
-import { install, Tooltip } from '@muku-ui/tooltip';
-import { click, q } from '@muku-ui/shared/tests/utils';
+import '@testing-library/jest-dom'
+import { mount } from '@vue/test-utils'
+import { install, Tooltip } from '@muku-ui/tooltip'
+import { click, q } from '@muku-ui/shared/tests/utils'
 
 /*
 |---------------------------------------------------------------------------
@@ -9,8 +9,8 @@ import { click, q } from '@muku-ui/shared/tests/utils';
 |---------------------------------------------------------------------------
 */
 
-const appContainer = document.createElement('div');
-document.body.append(appContainer);
+const appContainer = document.createElement('div')
+document.body.append(appContainer)
 
 const AppComponent = {
   template: `
@@ -19,17 +19,17 @@ const AppComponent = {
     <div id="xx"></div>
   `,
   components: { Tooltip: Tooltip },
-};
+}
 
 const app = mount(AppComponent, {
   global: {
     plugins: [install],
   },
   attachTo: appContainer,
-});
+})
 
-const tooltip_1 = q('#tooltip-1');
-const activator_1 = q('#activator-1');
+const tooltip_1 = q('#tooltip-1')
+const activator_1 = q('#activator-1')
 
 /*
 |---------------------------------------------------------------------------
@@ -38,12 +38,12 @@ const activator_1 = q('#activator-1');
 */
 
 test('Tooltip element appended to body after installation', () => {
-  expect(tooltip_1).toBeInTheDocument();
-  expect(tooltip_1).not.toBeVisible();
-});
+  expect(tooltip_1).toBeInTheDocument()
+  expect(tooltip_1).not.toBeVisible()
+})
 
 test('Show tooltip when click on the activator', async () => {
-  expect(tooltip_1).not.toBeVisible();
-  await click(activator_1);
-  expect(tooltip_1).toBeVisible();
-});
+  expect(tooltip_1).not.toBeVisible()
+  await click(activator_1)
+  expect(tooltip_1).toBeVisible()
+})

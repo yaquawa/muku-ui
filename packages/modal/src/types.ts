@@ -1,50 +1,50 @@
-import { ComponentInternalInstance, Ref } from 'vue';
+import { ComponentInternalInstance, Ref } from 'vue'
 
 export interface InstallOptions {
-  backdropStyle: Record<string, any>;
-  registerComponent: boolean;
-  placeCenter: boolean;
+  backdropStyle: Record<string, any>
+  registerComponent: boolean
+  placeCenter: boolean
 }
 
 export interface Model<Instance extends ComponentInternalInstance, Context extends Record<string, any>> {
-  instance: Instance;
-  ctx: Context;
+  instance: Instance
+  ctx: Context
 }
 
 // Modal Interfaces
 export interface ModalProps {
-  [key: string]: unknown;
+  [key: string]: unknown
 
-  name: string;
+  name: string
 }
 
 export interface ModalComponentInternalInstance extends ComponentInternalInstance {
-  props: ModalProps;
+  props: ModalProps
 }
 
 export interface ModalContext {
-  show: Ref<boolean>;
+  show: Ref<boolean>
 
-  close(): void;
+  close(): void
 
-  open(modalName: string): void;
+  open(modalName: string): void
 }
 
-export type ModalModel = Model<ModalComponentInternalInstance, ModalContext>;
+export type ModalModel = Model<ModalComponentInternalInstance, ModalContext>
 
 // Backdrop Interfaces
 export interface BackdropProps {
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 export interface BackdropComponentInternalInstance extends ComponentInternalInstance {
-  props: BackdropProps;
+  props: BackdropProps
 }
 
 export interface BackdropContext {
-  show: Ref<boolean>;
+  show: Ref<boolean>
 
-  close(): void;
+  close(): void
 }
 
-export type BackdropModel = Model<BackdropComponentInternalInstance, BackdropContext>;
+export type BackdropModel = Model<BackdropComponentInternalInstance, BackdropContext>

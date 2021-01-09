@@ -31,12 +31,12 @@
 </style>
 
 <script lang="ts">
-import { api } from '../Api';
-import { offsetByPadding } from '../popperModifiers';
-import { ComponentInternalInstance } from '@vue/runtime-core';
-import { hasClosestElement } from '@muku-ui/shared/src/dom/utils';
-import { getCurrentInstance, onMounted, defineComponent, PropType, ref, reactive } from 'vue';
-import { createPopper, Placement, Padding, Instance as PopperInstance } from '@popperjs/core';
+import { api } from '../Api'
+import { offsetByPadding } from '../popperModifiers'
+import { ComponentInternalInstance } from '@vue/runtime-core'
+import { hasClosestElement } from '@muku-ui/shared/src/dom/utils'
+import { getCurrentInstance, onMounted, defineComponent, PropType, ref, reactive } from 'vue'
+import { createPopper, Placement, Padding, Instance as PopperInstance } from '@popperjs/core'
 
 export default defineComponent({
   props: {
@@ -86,89 +86,89 @@ export default defineComponent({
     visible: {
       updated(el, { value, oldValue }, { transition }) {
         if (!value === !oldValue) {
-          return;
+          return
         }
 
         if (value) {
-          transition!.beforeEnter(el);
-          el.style.visibility = '';
-          transition!.enter(el);
+          transition!.beforeEnter(el)
+          el.style.visibility = ''
+          transition!.enter(el)
         } else {
           transition!.leave(el, () => {
-            el.style.visibility = 'hidden';
-          });
+            el.style.visibility = 'hidden'
+          })
         }
       },
     },
   },
 
   setup(props) {
-    const instance = getCurrentInstance() as ComponentInternalInstance;
-    const show = ref(false);
-    const currentPlacement = ref(props.placement);
+    const instance = getCurrentInstance() as ComponentInternalInstance
+    const show = ref(false)
+    const currentPlacement = ref(props.placement)
     const tooltipStyle = reactive({
       display: 'none',
       zIndex: props.zIndex,
       pointerEvents: props.interactive ? '' : 'none',
-    });
-    let popper: PopperInstance | null;
+    })
+    let popper: PopperInstance | null
 
     const beforeEnter = () => {
-      tooltipStyle.pointerEvents = 'none';
-    };
+      tooltipStyle.pointerEvents = 'none'
+    }
 
     const afterEnter = () => {
       if (props.interactive) {
-        tooltipStyle.pointerEvents = '';
+        tooltipStyle.pointerEvents = ''
       }
-    };
+    }
 
     const afterLeave = () => {
-      tooltipStyle.display = 'none';
-      destroyPopper();
-    };
+      tooltipStyle.display = 'none'
+      destroyPopper()
+    }
 
     const destroyPopper = () => {
       if (!popper) {
-        return;
+        return
       }
-      popper.destroy();
-      popper = null;
-    };
+      popper.destroy()
+      popper = null
+    }
 
     onMounted(() => {
-      const tooltipElem = instance.refs.tooltip as HTMLElement;
+      const tooltipElem = instance.refs.tooltip as HTMLElement
 
       if (!(props.activator instanceof HTMLElement) && typeof props.activator !== 'string') {
         throw new Error(
           `The 'activator' property should be either a string or HTMLElement, but the given value was '${props.activator.constructor}'.`
-        );
+        )
       }
 
       const activator: HTMLElement | null =
-        typeof props.activator === 'string' ? document.querySelector(props.activator) : props.activator;
+        typeof props.activator === 'string' ? document.querySelector(props.activator) : props.activator
 
       if (!(activator instanceof HTMLElement)) {
-        throw new Error(`The element for '${props.activator}' was not found.`);
+        throw new Error(`The element for '${props.activator}' was not found.`)
       }
 
       props.showEvents.forEach((eventName) => {
-        activator.addEventListener(eventName, showTooltip);
-      });
+        activator.addEventListener(eventName, showTooltip)
+      })
 
       props.hideEvents.forEach((eventName) => {
-        activator.addEventListener(eventName, hideTooltip);
+        activator.addEventListener(eventName, hideTooltip)
         if (props.interactive) {
-          tooltipElem.addEventListener(eventName, hideTooltip);
+          tooltipElem.addEventListener(eventName, hideTooltip)
         }
-      });
+      })
 
       /*------------------------------------*\
           # functions
       \*------------------------------------*/
 
       function createTooltip() {
-        destroyPopper();
+        destroyPopper()
 
         popper = createPopper(activator as HTMLElement, tooltipElem, {
           placement: props.placement,
@@ -191,19 +191,19 @@ export default defineComponent({
               enabled: true,
               phase: 'main',
               fn: ({ state }) => {
-                currentPlacement.value = state.placement;
+                currentPlacement.value = state.placement
               },
             },
           ],
-        });
+        })
       }
 
       function showTooltip() {
-        tooltipStyle.display = '';
+        tooltipStyle.display = ''
 
-        show.value = true;
+        show.value = true
 
-        createTooltip();
+        createTooltip()
       }
 
       function hideTooltip(e: MouseEvent | FocusEvent) {
@@ -213,14 +213,14 @@ export default defineComponent({
           e.currentTarget !== tooltipElem &&
           hasClosestElement(e.relatedTarget, tooltipElem)
         ) {
-          return;
+          return
         }
 
-        show.value = false;
+        show.value = false
       }
-    });
+    })
 
-    return { show, currentPlacement, afterLeave, beforeEnter, afterEnter, tooltipStyle };
+    return { show, currentPlacement, afterLeave, beforeEnter, afterEnter, tooltipStyle }
   },
-});
+})
 </script>

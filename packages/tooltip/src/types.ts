@@ -1,4 +1,4 @@
 export interface InstallOptions {
-  zIndex: number;
-  registerComponent: boolean;
+  zIndex: number
+  registerComponent: boolean
 }

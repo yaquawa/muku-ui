@@ -54,7 +54,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from 'vue'
 import {
   api as modalApi,
   Modal,
@@ -62,7 +62,7 @@ import {
   AfterOpenEvent,
   BeforeCloseEvent,
   BeforeOpenEvent,
-} from '@muku-ui/modal';
+} from '@muku-ui/modal'
 
 export default defineComponent({
   name: 'App',
@@ -72,40 +72,40 @@ export default defineComponent({
   data() {
     return {
       cancelEvent: false,
-    };
+    }
   },
   methods: {
     openModal(modelName: string) {
-      modalApi.openModal(modelName);
+      modalApi.openModal(modelName)
     },
 
     beforeOpen(event: BeforeOpenEvent) {
       if (this.cancelEvent) {
-        event.cancel();
-        console.log('cancel event');
+        event.cancel()
+        console.log('cancel event')
       }
 
-      console.log(event.modal, 'before open');
+      console.log(event.modal, 'before open')
     },
 
     beforeClose(event: BeforeCloseEvent) {
       if (this.cancelEvent) {
-        event.cancel();
-        console.log('cancel event');
+        event.cancel()
+        console.log('cancel event')
       }
 
-      console.log(event.modal, 'before close');
+      console.log(event.modal, 'before close')
     },
 
     afterOpen(event: AfterOpenEvent) {
-      console.log(event.modal, 'after open');
+      console.log(event.modal, 'after open')
     },
 
     afterClose(event: AfterCloseEvent) {
-      console.log(event.modal, 'after close');
+      console.log(event.modal, 'after close')
     },
   },
-});
+})
 </script>
 
 <style>

@@ -1,1 +1,1 @@
-export * as domUtils from './utils';
+export * as domUtils from './utils'

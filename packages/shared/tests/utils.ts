@@ -1,4 +1,4 @@
-import { nextTick } from 'vue';
+import { nextTick } from 'vue'
 
 /**
  * wait for the given micro-seconds.
@@ -6,26 +6,26 @@ import { nextTick } from 'vue';
  */
 export function wait(ms = 500) {
   return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
+    setTimeout(resolve, ms)
+  })
 }
 
 /**
  * click an element.
  * @param element
  */
-export function click(element: HTMLElement): Promise<void>;
-export function click(selector: string): Promise<void>;
+export function click(element: HTMLElement): Promise<void>
+export function click(selector: string): Promise<void>
 export function click(elementOrSelector: HTMLElement | string): Promise<void> {
   if (elementOrSelector instanceof HTMLElement) {
-    elementOrSelector.click();
+    elementOrSelector.click()
   } else {
     qAll(elementOrSelector).forEach((el: HTMLElement) => {
-      el.click();
-    });
+      el.click()
+    })
   }
 
-  return nextTick();
+  return nextTick()
 }
 
 /**
@@ -33,7 +33,7 @@ export function click(elementOrSelector: HTMLElement | string): Promise<void> {
  * @param selector
  */
 export function q(selector: string): HTMLElement {
-  return document.body.querySelector(selector) as HTMLElement;
+  return document.body.querySelector(selector) as HTMLElement
 }
 
 /**
@@ -41,5 +41,5 @@ export function q(selector: string): HTMLElement {
  * @param selector
  */
 export function qAll(selector: string): HTMLElement[] {
-  return Array.from(document.body.querySelectorAll(selector));
+  return Array.from(document.body.querySelectorAll(selector))
 }

@@ -1,27 +1,27 @@
-import { ModalModel } from './types';
+import { ModalModel } from './types'
 
-const modals = new Map<string, ModalModel>();
+const modals = new Map<string, ModalModel>()
 
 const ModalRepository = {
   add(modalName: string, modal: ModalModel) {
-    modals.set(modalName, modal);
+    modals.set(modalName, modal)
   },
 
   remove(modalName: string): boolean {
-    const modalModel = this.get(modalName);
+    const modalModel = this.get(modalName)
 
     if (!modalModel) {
-      return false;
+      return false
     }
 
-    modalModel.ctx.close();
+    modalModel.ctx.close()
 
-    return modals.delete(modalName);
+    return modals.delete(modalName)
   },
 
   get(modalName: string): ModalModel | undefined {
-    return modals.get(modalName);
+    return modals.get(modalName)
   },
-};
+}
 
-export { ModalRepository };
+export { ModalRepository }

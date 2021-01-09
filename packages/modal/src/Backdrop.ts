@@ -1,7 +1,7 @@
-import { BackdropModel } from './types';
+import { BackdropModel } from './types'
 
-export let Backdrop: BackdropModel;
+export let Backdrop: BackdropModel
 
 export function setBackdrop(value: BackdropModel) {
-  Backdrop = value;
+  Backdrop = value
 }

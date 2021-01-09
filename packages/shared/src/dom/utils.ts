@@ -1,16 +1,16 @@
 export function hasClosestElement(element: Element, closestElement: Element): boolean {
   if (element === closestElement) {
-    return true;
+    return true
   }
 
-  let parent = element.parentElement;
+  let parent = element.parentElement
 
   while (parent) {
     if (parent === closestElement) {
-      return true;
+      return true
     }
-    parent = parent.parentElement;
+    parent = parent.parentElement
   }
 
-  return false;
+  return false
 }
