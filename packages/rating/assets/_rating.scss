@@ -1,0 +1,29 @@
+@mixin rating(
+  $selector: '.muku-rating',
+  $icon-width: 24px,
+  $icon-height: 24px,
+) {
+  #{$selector} {
+    display: flex;
+
+    > .__icon-container {
+      width: $icon-width;
+      height: $icon-height;
+      position: relative;
+
+      > .__empty-icon, > .__full-icon {
+        position: absolute;
+        left: 0;
+        top: 0;
+        overflow: hidden;
+
+        > * {
+          display: block;
+          fill: currentColor;
+          width: $icon-width;
+          height: $icon-height;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "@muku-ui/progress",
+  "version": "1.0.0",
+  "description": "Vue progress component with the most essential features only.",
+  "main": "dist/index.es.js",
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "assets"
+  ],
+  "dependencies": {
+    "@muku-ui/shared": "^1.0.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yaquawa/muku-ui.git",
+    "directory": "packages/progress"
+  },
+  "keywords": [
+    "vue",
+    "ui"
+  ],
+  "bugs": {
+    "url": "https://github.com/yaquawa/muku-ui/issues"
+  },
+  "homepage": "https://github.com/yaquawa/muku-ui/master/packages/progress#readme"
+}

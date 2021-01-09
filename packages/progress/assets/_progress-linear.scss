@@ -1,0 +1,35 @@
+@mixin progress-linear(
+  $selector: '.muku-progress-linear',
+  $background-color: #EFEFEF ,
+  $bar-color: #2F77F6 ,
+  $border-radius: 0 ,
+  $bar-border-radius: 0 ,
+  $transition: (width 0.1s),
+) {
+  #{$selector} {
+    position: relative;
+    border-radius: $border-radius;
+    height: 5px;
+
+    > .__background, > .__bar {
+      position: absolute;
+      border-radius: $bar-border-radius;
+    }
+
+    > .__background {
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background-color: $background-color;
+    }
+
+    > .__bar {
+      left: 0;
+      top: 0;
+      bottom: 0;
+      background-color: $bar-color;
+      transition: $transition;
+    }
+  }
+}
