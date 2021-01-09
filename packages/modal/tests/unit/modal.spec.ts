@@ -1,6 +1,6 @@
-import '@testing-library/jest-dom';
-import { mount } from '@vue/test-utils';
-import { wait, click, q } from '@muku-ui/shared/tests/utils';
+import '@testing-library/jest-dom'
+import { mount } from '@vue/test-utils'
+import { wait, click, q } from '@muku-ui/shared/tests/utils'
 import {
   api as modalApi,
   install,
@@ -10,7 +10,7 @@ import {
   AfterOpenEvent,
   BeforeCloseEvent,
   BeforeOpenEvent,
-} from '@muku-ui/modal';
+} from '@muku-ui/modal'
 
 /*
 |---------------------------------------------------------------------------
@@ -20,11 +20,11 @@ import {
 
 const installOptions: Partial<InstallOptions> = {
   placeCenter: false,
-};
-const appContainer = document.createElement('div');
-document.body.append(appContainer);
+}
+const appContainer = document.createElement('div')
+document.body.append(appContainer)
 
-let cancelEvent = false;
+let cancelEvent = false
 
 const AppComponent = {
   template: `
@@ -53,64 +53,64 @@ const AppComponent = {
   `,
   methods: {
     openModal() {
-      modalApi.openModal('modal-1');
+      modalApi.openModal('modal-1')
     },
     beforeOpen(e: BeforeOpenEvent) {
-      expect(e).toBeInstanceOf(BeforeOpenEvent);
+      expect(e).toBeInstanceOf(BeforeOpenEvent)
       if (cancelEvent) {
-        e.cancel();
+        e.cancel()
       }
-      console.log('before open');
+      console.log('before open')
     },
     beforeClose(e: BeforeCloseEvent) {
-      expect(e).toBeInstanceOf(BeforeCloseEvent);
+      expect(e).toBeInstanceOf(BeforeCloseEvent)
       if (cancelEvent) {
-        e.cancel();
+        e.cancel()
       }
-      console.log('before close');
+      console.log('before close')
     },
     afterOpen(e: AfterOpenEvent) {
-      expect(e).toBeInstanceOf(AfterOpenEvent);
-      console.log('after open');
+      expect(e).toBeInstanceOf(AfterOpenEvent)
+      console.log('after open')
     },
     afterClose(e: AfterCloseEvent) {
-      expect(e).toBeInstanceOf(AfterCloseEvent);
-      console.log('after close');
+      expect(e).toBeInstanceOf(AfterCloseEvent)
+      console.log('after close')
     },
   },
   components: { Modal: Modal as any },
-};
+}
 
 const app = mount(AppComponent, {
   global: {
     plugins: [[install, installOptions]],
   },
   attachTo: appContainer,
-});
+})
 
-const backdropElement = q('#modal-backdrop');
+const backdropElement = q('#muku-modal-backdrop')
 
-const openModalButton = q('#open-modal-button');
+const openModalButton = q('#open-modal-button')
 
 const modals_1 = {
   close() {
-    click('#close-button');
+    click('#close-button')
   },
   openAnother() {
-    click('#open-another-button');
+    click('#open-another-button')
   },
   el: q('#modal-1'),
-};
+}
 
 const modals_2 = {
   closeAll() {
-    click('#close-all-button');
+    click('#close-all-button')
   },
   closeSelf() {
-    click('#close-current-modal-button');
+    click('#close-current-modal-button')
   },
   el: q('#modal-2'),
-};
+}
 
 /*
 |---------------------------------------------------------------------------
@@ -119,110 +119,110 @@ const modals_2 = {
 */
 beforeEach(async () => {
   // close all modals
-  modals_2.closeAll();
-  await wait();
-});
+  modals_2.closeAll()
+  await wait()
+})
 
 test('Backdrop element appended to body after installation', () => {
-  expect(backdropElement).toBeInTheDocument();
-  expect(backdropElement).not.toBeVisible();
-});
+  expect(backdropElement).toBeInTheDocument()
+  expect(backdropElement).not.toBeVisible()
+})
 
 test('Modal elements teleported into backdrop element', () => {
-  expect(backdropElement.querySelectorAll('.modal').length).toEqual(2);
-});
+  expect(backdropElement.querySelectorAll('.muku-modal').length).toEqual(2)
+})
 
 test('Modal elements are hidden by default', () => {
-  backdropElement.querySelectorAll('.modal').forEach((el) => {
-    expect(el).not.toBeVisible();
-  });
-});
+  backdropElement.querySelectorAll('.muku-modal').forEach((el) => {
+    expect(el).not.toBeVisible()
+  })
+})
 
 test('Delegate attributes to modal elements', () => {
-  expect(modals_2.el.style.width).toEqual('100px');
-});
+  expect(modals_2.el.style.width).toEqual('100px')
+})
 
 test('Click to open modal', async () => {
-  expect(modals_1.el).not.toBeVisible();
-  await click(openModalButton);
-  expect(modals_1.el).toBeVisible();
-});
+  expect(modals_1.el).not.toBeVisible()
+  await click(openModalButton)
+  expect(modals_1.el).toBeVisible()
+})
 
 test('Click backdrop to close', async () => {
-  await click(backdropElement);
+  await click(backdropElement)
 
-  expect(modals_1.el).not.toBeVisible();
-  expect(modals_2.el).not.toBeVisible();
-  expect(backdropElement).not.toBeVisible();
-});
+  expect(modals_1.el).not.toBeVisible()
+  expect(modals_2.el).not.toBeVisible()
+  expect(backdropElement).not.toBeVisible()
+})
 
 test('Emit events', () => {
-  const spy = jest.spyOn(console, 'log');
+  const spy = jest.spyOn(console, 'log')
 
-  click(openModalButton);
-  expect(spy).toHaveBeenCalledWith('before open');
+  click(openModalButton)
+  expect(spy).toHaveBeenCalledWith('before open')
 
-  modals_1.close();
-  expect(spy).toHaveBeenCalledWith('before close');
+  modals_1.close()
+  expect(spy).toHaveBeenCalledWith('before close')
 
-  spy.mockRestore();
-});
+  spy.mockRestore()
+})
 
 test('Open another modal', async () => {
-  await click(openModalButton);
+  await click(openModalButton)
 
-  expect(modals_1.el).toBeVisible();
+  expect(modals_1.el).toBeVisible()
 
-  modals_1.openAnother();
+  modals_1.openAnother()
 
-  await wait();
+  await wait()
 
-  expect(modals_1.el).not.toBeVisible();
-  expect(modals_2.el).toBeVisible();
+  expect(modals_1.el).not.toBeVisible()
+  expect(modals_2.el).toBeVisible()
 
-  modals_2.closeSelf();
+  modals_2.closeSelf()
 
-  await wait();
+  await wait()
 
-  expect(modals_2.el).not.toBeVisible();
-  expect(modals_1.el).toBeVisible();
+  expect(modals_2.el).not.toBeVisible()
+  expect(modals_1.el).toBeVisible()
 
-  modals_1.openAnother();
+  modals_1.openAnother()
 
-  await wait();
+  await wait()
 
-  modals_2.closeAll();
+  modals_2.closeAll()
 
-  await wait();
+  await wait()
 
-  expect(modals_1.el).not.toBeVisible();
-  expect(modals_2.el).not.toBeVisible();
-  expect(backdropElement).not.toBeVisible();
-});
+  expect(modals_1.el).not.toBeVisible()
+  expect(modals_2.el).not.toBeVisible()
+  expect(backdropElement).not.toBeVisible()
+})
 
 test('Cancel open or close', async () => {
-  cancelEvent = true;
+  cancelEvent = true
 
-  await click(openModalButton);
+  await click(openModalButton)
 
-  expect(modals_1.el).not.toBeVisible();
-  expect(modals_2.el).not.toBeVisible();
-  expect(backdropElement).not.toBeVisible();
+  expect(modals_1.el).not.toBeVisible()
+  expect(modals_2.el).not.toBeVisible()
+  expect(backdropElement).not.toBeVisible()
 
-  cancelEvent = false;
+  cancelEvent = false
 
-  await click(openModalButton);
+  await click(openModalButton)
 
-  cancelEvent = true;
+  cancelEvent = true
 
-  modals_1.close();
+  modals_1.close()
 
-  await wait();
+  await wait()
 
-  expect(modals_1.el).toBeVisible();
-  expect(modals_2.el).not.toBeVisible();
-  expect(backdropElement).toBeVisible();
+  expect(modals_1.el).toBeVisible()
+  expect(modals_2.el).not.toBeVisible()
+  expect(backdropElement).toBeVisible()
 
-  expect(modals_1.el).toBeVisible();
-  cancelEvent = false;
-});
+  expect(modals_1.el).toBeVisible()
+  cancelEvent = false
+})

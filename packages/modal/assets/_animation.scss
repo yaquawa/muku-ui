@@ -1,28 +1,28 @@
 /* Modal Animation */
-.modal-enter-active {
+.muku-modal-enter-active {
     transition: transform 0.4s ease-out, opacity 0.3s ease-out;
 }
 
-.modal-leave-active {
+.muku-modal-leave-active {
     transition: transform 0.35s ease-in, opacity 0.28s ease-out;
 }
 
-.modal-enter-from,
-.modal-leave-to {
+.muku-modal-enter-from,
+.muku-modal-leave-to {
     transform: translateY(-30px) scale(0.96);
     opacity: 0;
 }
 
 /* Backdrop Animation */
-.modal-backdrop-enter-active {
+.muku-modal-backdrop-enter-active {
     transition: opacity 0.35s ease-out;
 }
 
-.modal-backdrop-leave-active {
+.muku-modal-backdrop-leave-active {
     transition: opacity 0.35s ease-in;
 }
 
-.modal-backdrop-enter-from,
-.modal-backdrop-leave-to {
+.muku-modal-backdrop-enter-from,
+.muku-modal-backdrop-leave-to {
     opacity: 0;
 }
