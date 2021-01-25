@@ -1,6 +1,6 @@
 <template>
   <transition name="muku-modal-backdrop">
-    <div id="muku-modal-backdrop" :style="backdropStyle" @click.self="close" v-show="show"></div>
+    <div id="muku-modal-backdrop" :style="backdropStyle" @mousedown.self="close" v-show="show"></div>
   </transition>
 </template>
 
