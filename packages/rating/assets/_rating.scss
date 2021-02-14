@@ -2,9 +2,11 @@
   $selector: '.muku-rating',
   $icon-width: 24px,
   $icon-height: 24px,
+  $color: currentColor,
 ) {
   #{$selector} {
     display: flex;
+    color: $color;
 
     > .__icon-container {
       width: $icon-width;
