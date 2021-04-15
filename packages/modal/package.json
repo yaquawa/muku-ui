@@ -10,7 +10,11 @@
     "assets"
   ],
   "dependencies": {
-    "@muku-ui/shared": "^1.1.0"
+    "@muku-ui/shared": "^1.1.0",
+    "mapstack": "^1.0.2"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.11"
   },
   "repository": {
     "type": "git",

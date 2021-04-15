@@ -1,7 +1,7 @@
 <template>
   <teleport to="body">
     <div
-      ref="tooltip"
+      ref="tooltipElement"
       :style="tooltipStyle"
       tabindex="0"
       class="muku-clear-outline-on-focus"
@@ -17,7 +17,7 @@
           <div v-bind="$attrs">
             <slot></slot>
           </div>
-          <div class="__arrow" v-if="arrow" ref="arrow"></div>
+          <div class="__arrow" v-if="arrow" ref="arrowElement"></div>
         </div>
       </transition>
     </div>
@@ -45,7 +45,7 @@ export default defineComponent({
       default: 'tooltip',
     },
     activator: {
-      type: [String, HTMLElement],
+      type: [String, Object] as PropType<string | HTMLElement>,
       required: true,
     },
     placement: {
@@ -103,7 +103,8 @@ export default defineComponent({
   },
 
   setup(props) {
-    const instance = getCurrentInstance() as ComponentInternalInstance
+    const tooltipElement = ref<HTMLElement | undefined>()
+    const arrowElement = ref<HTMLElement | undefined>()
     const show = ref(false)
     const currentPlacement = ref(props.placement)
     const tooltipStyle = reactive({
@@ -137,11 +138,11 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      const tooltipElem = instance.refs.tooltip as HTMLElement
+      const tooltipElem = tooltipElement.value as HTMLElement
 
       if (!(props.activator instanceof HTMLElement) && typeof props.activator !== 'string') {
         throw new Error(
-          `The 'activator' property should be either a string or HTMLElement, but the given value was '${props.activator.constructor}'.`
+          `The 'activator' property should be either a string or HTMLElement, but the given value was '${props.activator}'.`
         )
       }
 
@@ -176,7 +177,7 @@ export default defineComponent({
             {
               name: 'arrow',
               options: {
-                element: instance.refs.arrow,
+                element: arrowElement.value,
                 padding: props.arrowPadding,
               },
             },
@@ -220,7 +221,16 @@ export default defineComponent({
       }
     })
 
-    return { show, currentPlacement, afterLeave, beforeEnter, afterEnter, tooltipStyle }
+    return {
+      show,
+      currentPlacement,
+      afterLeave,
+      beforeEnter,
+      afterEnter,
+      tooltipStyle,
+      tooltipElement,
+      arrowElement,
+    }
   },
 })
 </script>

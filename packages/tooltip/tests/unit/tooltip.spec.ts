@@ -16,7 +16,6 @@ const AppComponent = {
   template: `
     <div id="activator-1">Activator</div>
     <tooltip id="tooltip-1" activator="#activator-1" placement="bottom" :show-events="['click']" :hide-events="['blur']">Tooltip</tooltip>
-    <div id="xx"></div>
   `,
   components: { Tooltip: Tooltip },
 }
@@ -45,5 +44,5 @@ test('Tooltip element appended to body after installation', () => {
 test('Show tooltip when click on the activator', async () => {
   expect(tooltip_1).not.toBeVisible()
   await click(activator_1)
-  expect(tooltip_1).toBeVisible()
+  expect(q('#tooltip-1')).toBeVisible()
 })

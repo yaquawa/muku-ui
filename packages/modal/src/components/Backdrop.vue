@@ -10,6 +10,16 @@ import { api as modalApi } from '../Api'
 import { BackdropComponentInternalInstance } from '../types'
 import { defineComponent, getCurrentInstance, ref } from 'vue'
 
+export default defineComponent({
+  name: 'Backdrop',
+  setup() {
+    const { show, close } = useBackdrop()
+    const backdropStyle = modalApi.config.get('backdropStyle')
+
+    return { show, close, backdropStyle }
+  },
+})
+
 function useBackdrop() {
   const instance = getCurrentInstance() as BackdropComponentInternalInstance
   const show = ref(false)
@@ -31,14 +41,4 @@ function useBackdrop() {
 
   return ctx
 }
-
-export default defineComponent({
-  name: 'Backdrop',
-  setup() {
-    const { show, close } = useBackdrop()
-    const backdropStyle = modalApi.config.get('backdropStyle')
-
-    return { show, close, backdropStyle }
-  },
-})
 </script>
