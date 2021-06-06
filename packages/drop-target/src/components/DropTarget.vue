@@ -86,10 +86,12 @@ export default defineComponent({
       }
 
       setActiveClass('remove')
+      isEntering = false
 
       function finishDrop() {
         emit('drop', event)
         setActiveClass('remove')
+        isEntering = false
       }
     }
 
