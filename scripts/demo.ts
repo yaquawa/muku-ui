@@ -1,6 +1,6 @@
 import execa from 'execa'
-import browserSync from 'browser-sync'
-import { packageNames, packagesPath, assertPackageSpecified, __dirname } from './utils.js'
+import browserSync, { BrowserSyncInstance } from 'browser-sync'
+import { packageNames, packagesPath, assertPackageSpecified } from './utils'
 
 const packageName = packageNames[0]
 const packagePath = `${packagesPath}/${packageName}`
@@ -20,7 +20,7 @@ function runBrowserSync() {
       `${demoDir}/*.html`,
       {
         match: [`${demoDir}/*.(ts|vue)`, `${packagePath}/src/**/*.(ts|vue)`],
-        fn: async function (event, file) {
+        fn: async function (this: BrowserSyncInstance, event, file) {
           console.log(`Recompile file: ${file}`)
 
           await buildDemo()
@@ -33,7 +33,7 @@ function runBrowserSync() {
 
 function buildDemo() {
   console.log(`Building ${packageName} demo...`)
-  return execa('node', [`${__dirname}/build.js`, packageName, '--demo', '--formats=iife'], {
+  return execa('yarn', ['ts', `${__dirname}/build.ts`, packageName, '--demo', '--formats=iife'], {
     stdio: 'inherit',
   })
 }

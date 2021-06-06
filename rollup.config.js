@@ -1,32 +1,33 @@
-import fs from 'fs';
-import path from 'path';
-import sass from 'sass';
-import vuePlugin from 'rollup-plugin-vue';
-import dtsPlugin from 'rollup-plugin-dts';
-import scssPlugin from 'rollup-plugin-scss';
-import tsPlugin from 'rollup-plugin-typescript2';
-import resolveNodePlugin from '@rollup/plugin-node-resolve';
-import injectProcessEnvPlugin from 'rollup-plugin-inject-process-env';
+import fs from 'fs'
+import path from 'path'
+import sass from 'sass'
+import vuePlugin from 'rollup-plugin-vue'
+import dtsPlugin from 'rollup-plugin-dts'
+import scssPlugin from 'rollup-plugin-scss'
+import tsPlugin from 'rollup-plugin-typescript2'
+import resolveNodePlugin from '@rollup/plugin-node-resolve'
+import injectProcessEnvPlugin from 'rollup-plugin-inject-process-env'
+import { kebabCase, camelCase, upperFirst } from 'lodash'
 
-const packageName = process.env.PACKAGE;
+const packageName = kebabCase(process.env.PACKAGE)
 
 if (!packageName) {
-  throw new Error('No package specified.');
+  throw new Error('No package specified.')
 }
 
-const packagePath = path.resolve(__dirname, 'packages', packageName);
-const srcIndexPath = path.resolve(packagePath, 'src/index.ts');
-const demoIndexPath = path.resolve(packagePath, 'demo/index.ts');
+const packagePath = path.resolve(__dirname, 'packages', packageName)
+const srcIndexPath = path.resolve(packagePath, 'src/index.ts')
+const demoIndexPath = path.resolve(packagePath, 'demo/index.ts')
 
 if (!fs.existsSync(packagePath)) {
-  throw new Error('Incorrect package name.');
+  throw new Error('Incorrect package name.')
 }
 
-const formats = process.env.FORMATS?.split('+') || ['es', 'cjs', 'iife'];
+const formats = process.env.FORMATS?.split('+') || ['es', 'cjs', 'iife']
 
-const basicConfig = process.env.DEMO ? createConfig(demoIndexPath, 'demo') : createConfig(srcIndexPath);
+const basicConfig = process.env.DEMO ? createConfig(demoIndexPath, 'demo') : createConfig(srcIndexPath)
 
-const configs = [basicConfig];
+const configs = [basicConfig]
 
 if (process.env.BUILD_TYPES) {
   const typeConfig = {
@@ -36,15 +37,15 @@ if (process.env.BUILD_TYPES) {
       format: 'es',
     },
     plugins: [dtsPlugin()],
-  };
+  }
 
-  configs.push(typeConfig);
+  configs.push(typeConfig)
 }
 
-export default configs;
+export default configs
 
 function createConfig(entryFilePath, outFileBaseName = null, options = {}) {
-  outFileBaseName = outFileBaseName || path.basename(entryFilePath, '.ts');
+  outFileBaseName = outFileBaseName || path.basename(entryFilePath, '.ts')
 
   return {
     input: entryFilePath,
@@ -70,7 +71,7 @@ function createConfig(entryFilePath, outFileBaseName = null, options = {}) {
     ],
     external: ['vue'],
     ...options,
-  };
+  }
 }
 
 function createOutputConfig(outFileBaseName, format) {
@@ -79,18 +80,14 @@ function createOutputConfig(outFileBaseName, format) {
     sourcemap: true,
     externalLiveBindings: false,
     format,
-  };
-
-  if (format === 'iife') {
-    outputConfig.name = 'Muku' + capitalize(packageName);
-    outputConfig.globals = {
-      vue: 'Vue',
-    };
   }
 
-  return outputConfig;
-}
+  if (format === 'iife') {
+    outputConfig.name = 'Muku' + upperFirst(camelCase(packageName))
+    outputConfig.globals = {
+      vue: 'Vue',
+    }
+  }
 
-function capitalize(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+  return outputConfig
 }

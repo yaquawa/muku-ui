@@ -13,7 +13,8 @@
     "@muku-ui/progress": "^1.1.4",
     "@muku-ui/rating": "^1.1.4",
     "@muku-ui/shared": "^1.1.0",
-    "@muku-ui/tooltip": "^1.1.5"
+    "@muku-ui/tooltip": "^1.1.5",
+    "@muku-ui/drop-target": "^1.0.0"
   },
   "repository": {
     "type": "git",

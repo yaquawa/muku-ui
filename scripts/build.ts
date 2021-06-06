@@ -1,7 +1,8 @@
 import fs from 'fs-extra'
 import execa from 'execa'
 import chalk from 'chalk'
-import { packageNames, packagesPath, argv, assertPackageSpecified } from './utils.js'
+import { upperFirst, camelCase } from 'lodash'
+import { packageNames, packagesPath, argv, assertPackageSpecified } from './utils'
 
 /*
 |---------------------------------------------------------------------------
@@ -17,12 +18,14 @@ import { packageNames, packagesPath, argv, assertPackageSpecified } from './util
 |
 */
 
+type Package = { name: string; path: string }
+
 const formats = argv.formats || argv.f || 'es+cjs+iife'
 
 packageNames.forEach((packageName) => {
   assertPackageSpecified(packageName)
-  const packageObj = {
-    name: packageName,
+  const packageObj: Package = {
+    name: upperFirst(camelCase(packageName)),
     path: `${packagesPath}/${packageName}`,
   }
   cleanBuilds(packageObj)
@@ -30,7 +33,7 @@ packageNames.forEach((packageName) => {
   buildStyle(packageObj)
 })
 
-async function buildScripts(packageObj) {
+async function buildScripts(packageObj: Package) {
   console.log(`Building package ${chalk.blue(packageObj.name)}`)
 
   const buildDemo = argv.demo
@@ -60,7 +63,7 @@ async function buildScripts(packageObj) {
   fs.removeSync(`${packageObj.path}/dist/types`)
 }
 
-function buildStyle(packageObj) {
+function buildStyle(packageObj: Package) {
   console.log(`Building style of ${chalk.blue(packageObj.name)}`)
 
   const stylePath = `${packageObj.path}/assets/style.scss`
@@ -81,7 +84,7 @@ function buildStyle(packageObj) {
   })
 }
 
-function cleanBuilds(packageObj) {
+function cleanBuilds(packageObj: Package) {
   console.log(`Cleaning builds of ${chalk.blue(packageObj.name)}`)
 
   const distDir = `${packageObj.path}/dist`
