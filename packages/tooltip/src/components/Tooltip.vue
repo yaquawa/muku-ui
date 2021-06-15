@@ -33,9 +33,8 @@
 <script lang="ts">
 import { api } from '../Api'
 import { offsetByPadding } from '../popperModifiers'
-import { ComponentInternalInstance } from '@vue/runtime-core'
 import { hasClosestElement } from '@muku-ui/shared/src/dom/utils'
-import { getCurrentInstance, onMounted, defineComponent, PropType, ref, reactive } from 'vue'
+import { onUnmounted, onMounted, defineComponent, PropType, ref, reactive } from 'vue'
 import { createPopper, Placement, Padding, Instance as PopperInstance } from '@popperjs/core'
 
 export default defineComponent({
@@ -79,6 +78,9 @@ export default defineComponent({
     zIndex: {
       type: Number,
       default: () => api.config.get('zIndex'),
+    },
+    timeout: {
+      type: Number,
     },
   },
 
@@ -199,12 +201,20 @@ export default defineComponent({
         })
       }
 
+      let timeoutId: number
       function showTooltip() {
         tooltipStyle.display = ''
 
         show.value = true
 
         createTooltip()
+
+        if (props.timeout !== undefined) {
+          clearTimeout(timeoutId)
+          timeoutId = setTimeout(() => {
+            show.value = false
+          }, props.timeout)
+        }
       }
 
       function hideTooltip(e: MouseEvent | FocusEvent) {
@@ -219,6 +229,10 @@ export default defineComponent({
 
         show.value = false
       }
+    })
+
+    onUnmounted(() => {
+      destroyPopper()
     })
 
     return {

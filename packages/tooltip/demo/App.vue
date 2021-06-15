@@ -41,6 +41,15 @@
         <div>Tooltip 3</div>
       </tooltip>
     </div>
+
+    <div>
+      <button id="button-4">Button</button>
+      <tooltip activator="#button-4" placement="auto" class="tooltip" offset="10" :timeout="2000">
+        <div>Tooltip 4</div>
+        <div>Tooltip 4</div>
+        <div>Tooltip 4</div>
+      </tooltip>
+    </div>
   </div>
 </template>
 
@@ -52,11 +61,6 @@ export default defineComponent({
   name: 'App',
   components: {
     Tooltip,
-  },
-  data() {
-    return {
-      cancelEvent: false,
-    }
   },
 })
 </script>
