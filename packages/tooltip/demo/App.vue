@@ -43,8 +43,8 @@
     </div>
 
     <div>
-      <button id="button-4">Button</button>
-      <tooltip activator="#button-4" placement="auto" class="tooltip" offset="10" :timeout="2000">
+      <button id="button-4" ref="buttonElement">Button</button>
+      <tooltip :activator="buttonElement" placement="auto" class="tooltip" offset="10" :timeout="2000">
         <div>Tooltip 4</div>
         <div>Tooltip 4</div>
         <div>Tooltip 4</div>
@@ -54,13 +54,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { Tooltip } from '@muku-ui/tooltip'
 
 export default defineComponent({
   name: 'App',
   components: {
     Tooltip,
+  },
+  setup() {
+    const buttonElement = ref<HTMLElement>()
+
+    return { buttonElement }
   },
 })
 </script>

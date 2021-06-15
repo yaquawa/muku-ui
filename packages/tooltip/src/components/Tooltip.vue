@@ -34,7 +34,7 @@
 import { api } from '../Api'
 import { offsetByPadding } from '../popperModifiers'
 import { hasClosestElement } from '@muku-ui/shared/src/dom/utils'
-import { onUnmounted, onMounted, defineComponent, PropType, ref, reactive } from 'vue'
+import { onUnmounted, onMounted, watch, defineComponent, PropType, ref, reactive } from 'vue'
 import { createPopper, Placement, Padding, Instance as PopperInstance } from '@popperjs/core'
 
 export default defineComponent({
@@ -116,30 +116,23 @@ export default defineComponent({
     })
     let popper: PopperInstance | null
 
-    const beforeEnter = () => {
-      tooltipStyle.pointerEvents = 'none'
-    }
+    onMounted(setupTooltip)
 
-    const afterEnter = () => {
-      if (props.interactive) {
-        tooltipStyle.pointerEvents = ''
-      }
-    }
-
-    const afterLeave = () => {
-      tooltipStyle.display = 'none'
+    onUnmounted(() => {
       destroyPopper()
-    }
+    })
 
-    const destroyPopper = () => {
-      if (!popper) {
-        return
+    watch(
+      () => props.activator,
+      () => {
+        destroyPopper()
+        setupTooltip()
       }
-      popper.destroy()
-      popper = null
-    }
+    )
 
-    onMounted(() => {
+    function setupTooltip() {
+      if (!props.activator) return
+
       const tooltipElem = tooltipElement.value as HTMLElement
 
       if (!(props.activator instanceof HTMLElement) && typeof props.activator !== 'string') {
@@ -229,11 +222,30 @@ export default defineComponent({
 
         show.value = false
       }
-    })
+    }
 
-    onUnmounted(() => {
+    function beforeEnter() {
+      tooltipStyle.pointerEvents = 'none'
+    }
+
+    function afterEnter() {
+      if (props.interactive) {
+        tooltipStyle.pointerEvents = ''
+      }
+    }
+
+    function afterLeave() {
+      tooltipStyle.display = 'none'
       destroyPopper()
-    })
+    }
+
+    function destroyPopper() {
+      if (!popper) {
+        return
+      }
+      popper.destroy()
+      popper = null
+    }
 
     return {
       show,
