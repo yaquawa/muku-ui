@@ -1,23 +1,22 @@
 import { MaybeRef } from '@muku-ui/shared'
-import { reactive, Ref, watchEffect } from 'vue'
+import { reactive, ref, Ref, watchEffect } from 'vue'
 
 export function useInView(
   elem: Ref<Element | undefined>,
   {
-    handler,
     once = false,
     loading = false,
     offsetX = '0px',
     offsetY = '0px',
   }: {
-    handler: () => void
     once?: MaybeRef<boolean>
     loading?: MaybeRef<boolean>
     offsetX?: MaybeRef<string>
     offsetY?: MaybeRef<string>
-  }
-): void {
+  } = {}
+) {
   const options = reactive({ once, loading, offsetX, offsetY })
+  const inView = ref<boolean>()
 
   let observer = createObserver()
 
@@ -36,10 +35,11 @@ export function useInView(
         const entry = entries[0]
 
         if (!entry.isIntersecting || options.loading) {
+          inView.value = false
           return
         }
 
-        handler()
+        inView.value = true
 
         if (options.once) {
           observer.disconnect()
@@ -52,4 +52,6 @@ export function useInView(
 
     return observer
   }
+
+  return { inView }
 }

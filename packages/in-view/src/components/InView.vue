@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { useInView } from '../useInView'
-import { defineComponent, ref, PropType } from 'vue'
+import { defineComponent, ref, PropType, watchEffect } from 'vue'
 
 export default defineComponent({
   name: 'InView',
@@ -35,7 +35,13 @@ export default defineComponent({
   setup(props) {
     const rootElement = ref<Element>()
 
-    useInView(rootElement, props)
+    const { inView } = useInView(rootElement, props)
+
+    watchEffect(() => {
+      if (inView.value) {
+        props.handler()
+      }
+    })
 
     return { rootElement }
   },

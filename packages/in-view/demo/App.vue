@@ -1,14 +1,16 @@
 <template>
-  <div style="width: 100%; height: 150vh; background-color: gray"></div>
+  <div style="width: 100%; height: 150vh; background-color: lightgray"></div>
   <InView :handler="onInView">
-    <div style="width: 100px; height: 100px; background-color: yellowgreen"></div>
+    <div style="width: 100px; height: 100px; background-color: yellowgreen" ref="elem"></div>
   </InView>
-  <div style="width: 100%; height: 130vh; background-color: gray"></div>
+  <div style="width: 100%; height: 130vh; background-color: lightgray"></div>
+
+  <div style="position: fixed; top: 100px; left: 100px">{{ inView ? 'in view' : 'out of view' }}</div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { InView } from '@muku-ui/in-view'
+import { defineComponent, ref } from 'vue'
+import { InView, useInView } from '@muku-ui/in-view'
 
 export default defineComponent({
   name: 'App',
@@ -16,11 +18,14 @@ export default defineComponent({
     InView,
   },
   setup() {
+    const elem = ref<Element>()
+    const { inView } = useInView(elem)
+
     const onInView = () => {
       console.log('in view')
     }
 
-    return { onInView }
+    return { onInView, elem, inView }
   },
 })
 </script>
