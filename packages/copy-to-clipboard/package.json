@@ -1,0 +1,31 @@
+{
+  "name": "@muku-ui/copy-to-clipboard",
+  "version": "1.0.0",
+  "description": "Vue copy-to-clipboard component with the most essential features only.",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@muku-ui/shared": "^1.1.0",
+    "@muku-ui/tooltip": "1.1.10"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.11"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yaquawa/muku-ui.git",
+    "directory": "packages/copy-to-clipboard"
+  },
+  "keywords": [
+    "vue",
+    "ui"
+  ],
+  "bugs": {
+    "url": "https://github.com/yaquawa/muku-ui/issues"
+  },
+  "homepage": "https://github.com/yaquawa/muku-ui/master/packages/copy-to-clipboard#readme"
+}

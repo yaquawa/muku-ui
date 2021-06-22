@@ -38,6 +38,8 @@ import { onUnmounted, onMounted, watch, defineComponent, PropType, ref, reactive
 import { createPopper, Placement, Padding, Instance as PopperInstance } from '@popperjs/core'
 
 export default defineComponent({
+  name: 'Tooltip',
+  inheritAttrs: false,
   props: {
     transitionName: {
       type: String,
