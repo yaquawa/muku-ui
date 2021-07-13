@@ -6,6 +6,7 @@
 ) {
   #{$selector} {
     display: flex;
+    align-items: center;
     color: $color;
 
     > .__icon-container {
