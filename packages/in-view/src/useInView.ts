@@ -8,14 +8,16 @@ export function useInView(
     loading = false,
     offsetX = '0px',
     offsetY = '0px',
+    threshold = [0],
   }: {
     once?: MaybeRef<boolean>
     loading?: MaybeRef<boolean>
     offsetX?: MaybeRef<string>
     offsetY?: MaybeRef<string>
+    threshold?: MaybeRef<number | number[]>
   } = {}
 ) {
-  const options = reactive({ once, loading, offsetX, offsetY })
+  const options = reactive({ once, loading, offsetX, offsetY, threshold })
   const inView = ref<boolean>()
 
   let observer = createObserver()
@@ -47,6 +49,7 @@ export function useInView(
       },
       {
         rootMargin: `${options.offsetY} ${options.offsetX}`,
+        threshold: options.threshold,
       }
     )
 
