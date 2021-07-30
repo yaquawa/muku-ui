@@ -71,7 +71,7 @@ export default defineComponent({
     },
     showEvents: {
       type: Array as PropType<Array<'mouseenter' | 'focus' | 'click'>>,
-      default: () => ['mouseenter', 'focus'],
+      default: () => (isTouchDevice() ? ['click'] : ['mouseenter', 'focus']),
     },
     hideEvents: {
       type: Array as PropType<Array<'mouseleave' | 'blur'>>,
@@ -117,6 +117,14 @@ export default defineComponent({
       pointerEvents: props.interactive ? '' : 'none',
     })
     let popper: PopperInstance | null
+
+    if (isTouchDevice()) {
+      document.addEventListener('touchend', () => {
+        if (!show.value) return
+
+        show.value = false
+      })
+    }
 
     onMounted(setupTooltip)
 
@@ -261,4 +269,8 @@ export default defineComponent({
     }
   },
 })
+
+function isTouchDevice() {
+  return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0
+}
 </script>
