@@ -6,7 +6,6 @@ import dtsPlugin from 'rollup-plugin-dts'
 import scssPlugin from 'rollup-plugin-scss'
 import tsPlugin from 'rollup-plugin-typescript2'
 import resolveNodePlugin from '@rollup/plugin-node-resolve'
-import injectProcessEnvPlugin from 'rollup-plugin-inject-process-env'
 import { kebabCase, camelCase, upperFirst } from 'lodash'
 
 const packageName = kebabCase(process.env.PACKAGE)
@@ -64,9 +63,6 @@ function createConfig(entryFilePath, outFileBaseName = null, options = {}) {
         output: `${packagePath}/dist/${outFileBaseName}.css`,
       }),
       vuePlugin(),
-      injectProcessEnvPlugin({
-        NODE_ENV: process.env.NODE_ENV,
-      }),
       resolveNodePlugin(),
     ],
     external: ['vue'],
