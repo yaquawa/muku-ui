@@ -2,16 +2,18 @@
   <DropTarget
     @drop="onDrop"
     @dragenter="onDragEnter"
+    @dragleave="onDragLeave"
     class="drop-target"
     active-class="drop-target--active"
-    accept="image/* , .json"
+    :accept="['image/*', '.json']"
+    v-model="files"
   >
     <div class="drop-target__text">Drop file to here.</div>
   </DropTarget>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 import { DropTarget } from '@muku-ui/drop-target'
 
 export default defineComponent({
@@ -28,7 +30,20 @@ export default defineComponent({
       console.log('[onDragEnter]', event)
     }
 
-    return { onDrop, onDragEnter }
+    const onDragLeave = (event: DragEvent) => {
+      console.log('[onDragLeave]', event)
+    }
+
+    const files = ref([])
+
+    watch(
+      () => files.value,
+      () => {
+        console.log('[files]', files.value)
+      }
+    )
+
+    return { onDrop, onDragEnter, onDragLeave, files }
   },
 })
 </script>

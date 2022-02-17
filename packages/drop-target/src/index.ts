@@ -1,4 +1,5 @@
 export * from './Api'
 export * from './types'
 export * from './installer'
+export * from './useDropTarget'
 export { default as DropTarget } from './components/DropTarget.vue'
