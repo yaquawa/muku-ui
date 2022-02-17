@@ -16,7 +16,9 @@ export function useDropTarget(
   const dropEventHook = createEventHook<DragEvent>()
   const dragEnterEventHook = createEventHook<DragEvent>()
   const dragLeaveEventHook = createEventHook<DragEvent>()
-  const acceptableTypes = (Array.isArray(accept) ? accept : accept!.split(',')).map((value) => value.trim())
+  const acceptableTypes = (Array.isArray(accept) ? accept : accept!.split(',')).map((value) =>
+    value.trim().toLowerCase()
+  )
   let isEntering = false
 
   useEventListener(dropTargetElement, 'dragover', (event) => {
@@ -141,5 +143,5 @@ function getExtension(filename: string): string {
   const parts = filename.split('.')
   const lastIndex = parts.length - 1
 
-  return parts[lastIndex]
+  return parts[lastIndex].toLowerCase()
 }
