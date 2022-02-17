@@ -1,4 +1,4 @@
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount, type Ref } from 'vue'
 
 interface PickOptions {
   accept: string[]
@@ -6,8 +6,8 @@ interface PickOptions {
 }
 
 export function useFileDialog() {
-  const inputRef = ref<HTMLInputElement | null>(null)
-  const files = ref<File[]>([])
+  const inputRef: Ref<HTMLInputElement | null> = ref(null)
+  const files: Ref<File[]> = ref([])
 
   onMounted(() => {
     const input = document.createElement('input')
@@ -30,8 +30,9 @@ export function useFileDialog() {
     }
 
     if (opts?.accept) {
-      inputRef.value.accept = opts.accept.map((ext) => `.${ext}`).join(',')
+      inputRef.value.accept = opts.accept.join(',')
     }
+
     inputRef.value.multiple = opts?.multiple ?? false
 
     // prepare event listener
