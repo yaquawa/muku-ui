@@ -12,7 +12,7 @@ export function useDropTarget(
   { accept = ['*/*'], activeClass }: Partial<Options> = {}
 ) {
   const elementClass = ref<Options['activeClass'] | null>()
-  const files = ref<File[]>([])
+  const files: Ref<File[]> = ref([])
   const dropEventHook = createEventHook<DragEvent>()
   const dragEnterEventHook = createEventHook<DragEvent>()
   const dragLeaveEventHook = createEventHook<DragEvent>()
