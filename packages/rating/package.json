@@ -1,6 +1,6 @@
 {
   "name": "@muku-ui/rating",
-  "version": "1.1.13",
+  "version": "1.1.20",
   "description": "Vue rating component with the most essential features only.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
