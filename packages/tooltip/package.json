@@ -10,8 +10,8 @@
     "assets"
   ],
   "dependencies": {
-    "@muku-ui/shared": "^1.1.16",
-    "@popperjs/core": "^2.5.4"
+    "@floating-ui/dom": "^1.2.0",
+    "@muku-ui/shared": "^1.1.16"
   },
   "peerDependencies": {
     "vue": "^3.0.11"

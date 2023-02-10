@@ -27,6 +27,8 @@
 
   [data-tooltip-placement] {
     .__arrow {
+      position: absolute;
+
       &::after {
         position: absolute;
         left: 0;

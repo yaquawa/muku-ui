@@ -1,12 +1,5 @@
 <template>
   <component :is="as" @click="copyToClipboard" ref="rootElement" style="position: relative">
-    <input
-      ref="inputElement"
-      type="text"
-      :value="value"
-      style="position: absolute; z-index: -1; opacity: 0; pointer-events: none"
-    />
-
     <slot></slot>
     <Tooltip :activator="rootElement" v-bind="mergedTooltipProps">
       {{ message }}
@@ -50,18 +43,14 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const inputElement = ref<HTMLInputElement>()
     const rootElement = ref<HTMLInputElement>()
     const mergedTooltipProps = computed(() => ({ ...defaultTooltipProps, ...props.tooltipProps }))
 
-    function copyToClipboard() {
-      if (!inputElement.value) return
-
-      inputElement.value.select()
-      document.execCommand('copy')
+    async function copyToClipboard() {
+      await navigator.clipboard.writeText(props.value)
     }
 
-    return { copyToClipboard, inputElement, rootElement, mergedTooltipProps }
+    return { copyToClipboard, rootElement, mergedTooltipProps }
   },
 })
 </script>

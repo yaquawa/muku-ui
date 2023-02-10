@@ -1,5 +1,5 @@
 import fs from 'fs-extra'
-import execa from 'execa'
+import { execa } from 'execa'
 import chalk from 'chalk'
 import { upperFirst, camelCase } from 'lodash'
 import { packageNames, packagesPath, argv, assertPackageSpecified } from './utils'

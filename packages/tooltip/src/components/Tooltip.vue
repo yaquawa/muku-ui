@@ -32,10 +32,19 @@
 
 <script lang="ts">
 import { api } from '../Api'
-import { offsetByPadding } from '../popperModifiers'
 import { hasClosestElement } from '@muku-ui/shared/src/dom/utils'
-import { onUnmounted, onMounted, watch, defineComponent, PropType, ref, reactive } from 'vue'
-import { createPopper, Placement, Padding, Instance as PopperInstance } from '@popperjs/core'
+import { onMounted, watch, defineComponent, ref, reactive, onUnmounted, type PropType } from 'vue'
+import {
+  autoPlacement,
+  arrow,
+  offset,
+  autoUpdate,
+  flip,
+  computePosition,
+  type Placement,
+  type Middleware,
+  type Padding,
+} from '@floating-ui/dom'
 
 export default defineComponent({
   name: 'Tooltip',
@@ -50,7 +59,7 @@ export default defineComponent({
       required: true,
     },
     placement: {
-      type: String as PropType<Placement>,
+      type: String as PropType<Placement | 'auto'>,
       default: 'auto',
     },
     interactive: {
@@ -94,11 +103,11 @@ export default defineComponent({
         }
 
         if (value) {
-          transition!.beforeEnter(el)
+          transition?.beforeEnter(el)
           el.style.visibility = ''
-          transition!.enter(el)
+          transition?.enter(el)
         } else {
-          transition!.leave(el, () => {
+          transition?.leave(el, () => {
             el.style.visibility = 'hidden'
           })
         }
@@ -112,11 +121,15 @@ export default defineComponent({
     const show = ref(false)
     const currentPlacement = ref(props.placement)
     const tooltipStyle = reactive({
+      position: 'absolute',
       display: 'none',
       zIndex: props.zIndex,
       pointerEvents: props.interactive ? '' : 'none',
+      left: '0px',
+      top: '0px',
     })
-    let popper: PopperInstance | null
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    let cleanup = () => {}
 
     if (isTouchDevice()) {
       document.addEventListener('touchend', () => {
@@ -126,37 +139,78 @@ export default defineComponent({
       })
     }
 
-    onMounted(setupTooltip)
-
     onUnmounted(() => {
-      destroyPopper()
+      cleanup()
     })
 
-    watch(
-      () => props.activator,
-      () => {
-        destroyPopper()
-        setupTooltip()
+    onMounted(() => {
+      if (typeof props.activator === 'string') {
+        const activator: HTMLElement | null = document.querySelector(props.activator)
+
+        if (!activator) {
+          throw new Error(`The element for '${props.activator}' was not found.`)
+        }
+
+        setupTooltip(activator)
+      } else {
+        const unwatch = watch(
+          () => props.activator,
+          () => {
+            if (!(props.activator instanceof HTMLElement)) return
+
+            unwatch()
+            setupTooltip(props.activator)
+          }
+        )
       }
-    )
+    })
 
-    function setupTooltip() {
-      if (!props.activator) return
+    function setupTooltip(activator: HTMLElement) {
+      const middleware: Middleware[] = []
 
-      const tooltipElem = tooltipElement.value as HTMLElement
+      if (props.placement === 'auto') {
+        middleware.push(autoPlacement())
+      } else {
+        middleware.push(flip())
+      }
 
-      if (!(props.activator instanceof HTMLElement) && typeof props.activator !== 'string') {
-        throw new Error(
-          `The 'activator' property should be either a string or HTMLElement, but the given value was '${props.activator}'.`
+      if (props.offset) {
+        middleware.push(
+          offset(
+            typeof props.offset === 'number'
+              ? props.offset
+              : { mainAxis: props.offset[0], crossAxis: props.offset[1] }
+          )
         )
       }
 
-      const activator: HTMLElement | null =
-        typeof props.activator === 'string' ? document.querySelector(props.activator) : props.activator
-
-      if (!(activator instanceof HTMLElement)) {
-        throw new Error(`The element for '${props.activator}' was not found.`)
+      if (props.arrow) {
+        middleware.push(
+          arrow({
+            element: arrowElement.value!,
+            padding: props.arrowPadding,
+          })
+        )
       }
+
+      const update = () => {
+        computePosition(activator, tooltipElement.value!, {
+          middleware,
+          ...(props.placement !== 'auto' ? { placement: props.placement } : {}),
+        }).then(({ x, y, middlewareData, placement }) => {
+          tooltipStyle.left = x ? x + 'px' : '0px'
+          tooltipStyle.top = y ? y + 'px' : '0px'
+
+          Object.assign(arrowElement.value!.style, {
+            left: middlewareData.arrow?.x != null ? `${middlewareData.arrow.x}px` : '',
+            top: middlewareData.arrow?.y != null ? `${middlewareData.arrow.y}px` : '',
+          })
+
+          currentPlacement.value = placement
+        })
+      }
+
+      cleanup = autoUpdate(activator, tooltipElement.value!, update)
 
       props.showEvents.forEach((eventName) => {
         activator.addEventListener(eventName, showTooltip)
@@ -164,8 +218,9 @@ export default defineComponent({
 
       props.hideEvents.forEach((eventName) => {
         activator.addEventListener(eventName, hideTooltip)
+
         if (props.interactive) {
-          tooltipElem.addEventListener(eventName, hideTooltip)
+          tooltipElement.value!.addEventListener(eventName, hideTooltip)
         }
       })
 
@@ -173,44 +228,11 @@ export default defineComponent({
           # functions
       \*------------------------------------*/
 
-      function createTooltip() {
-        destroyPopper()
-
-        popper = createPopper(activator as HTMLElement, tooltipElem, {
-          placement: props.placement,
-          modifiers: [
-            {
-              name: 'arrow',
-              options: {
-                element: arrowElement.value,
-                padding: props.arrowPadding,
-              },
-            },
-            {
-              ...offsetByPadding,
-              options: {
-                offset: props.offset,
-              },
-            },
-            {
-              name: 'placementUpdater',
-              enabled: true,
-              phase: 'main',
-              fn: ({ state }) => {
-                currentPlacement.value = state.placement
-              },
-            },
-          ],
-        })
-      }
-
       let timeoutId: number
       function showTooltip() {
         tooltipStyle.display = ''
 
         show.value = true
-
-        createTooltip()
 
         if (props.timeout !== undefined) {
           clearTimeout(timeoutId)
@@ -224,8 +246,8 @@ export default defineComponent({
         if (
           props.interactive &&
           e.relatedTarget instanceof Element &&
-          e.currentTarget !== tooltipElem &&
-          hasClosestElement(e.relatedTarget, tooltipElem)
+          e.currentTarget !== tooltipElement.value &&
+          hasClosestElement(e.relatedTarget, tooltipElement.value!)
         ) {
           return
         }
@@ -246,15 +268,6 @@ export default defineComponent({
 
     function afterLeave() {
       tooltipStyle.display = 'none'
-      destroyPopper()
-    }
-
-    function destroyPopper() {
-      if (!popper) {
-        return
-      }
-      popper.destroy()
-      popper = null
     }
 
     return {

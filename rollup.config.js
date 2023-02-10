@@ -1,12 +1,18 @@
 import fs from 'fs'
 import path from 'path'
-import sass from 'sass'
+import postcss from 'rollup-plugin-postcss'
 import vuePlugin from 'rollup-plugin-vue'
 import dtsPlugin from 'rollup-plugin-dts'
-import scssPlugin from 'rollup-plugin-scss'
+import replace from 'rollup-plugin-replace'
 import tsPlugin from 'rollup-plugin-typescript2'
 import resolveNodePlugin from '@rollup/plugin-node-resolve'
-import { kebabCase, camelCase, upperFirst } from 'lodash'
+import lodash from 'lodash'
+
+const { kebabCase, camelCase, upperFirst } = lodash
+const __dirname = (() => {
+  const path = new URL(import.meta.url).pathname
+  return path.substring(0, path.lastIndexOf('/'))
+})()
 
 const packageName = kebabCase(process.env.PACKAGE)
 
@@ -50,6 +56,9 @@ function createConfig(entryFilePath, outFileBaseName = null, options = {}) {
     input: entryFilePath,
     output: formats.map((format) => createOutputConfig(outFileBaseName, format)),
     plugins: [
+      replace({
+        'process.env.NODE_ENV': JSON.stringify(process.env.PRODUCTION ? 'production' : 'development'),
+      }),
       tsPlugin({
         useTsconfigDeclarationDir: true,
         tsconfigOverride: {
@@ -58,11 +67,10 @@ function createConfig(entryFilePath, outFileBaseName = null, options = {}) {
           },
         },
       }),
-      scssPlugin({
-        sass,
-        output: `${packagePath}/dist/${outFileBaseName}.css`,
+      vuePlugin({
+        preprocessStyles: true,
       }),
-      vuePlugin(),
+      postcss(),
       resolveNodePlugin(),
     ],
     external: ['vue'],

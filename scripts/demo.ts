@@ -1,4 +1,4 @@
-import execa from 'execa'
+import { execa } from 'execa'
 import browserSync, { BrowserSyncInstance } from 'browser-sync'
 import { packageNames, packagesPath, assertPackageSpecified } from './utils'
 

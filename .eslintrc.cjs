@@ -8,7 +8,6 @@ module.exports = {
     'eslint:recommended',
     '@vue/typescript/recommended',
     '@vue/prettier',
-    '@vue/prettier/@typescript-eslint',
   ],
   parserOptions: {
     ecmaVersion: 2020,
@@ -19,12 +18,11 @@ module.exports = {
     '@typescript-eslint/camelcase': 'off',
     '@typescript-eslint/no-empty-interface': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
+    'vue/multi-word-component-names': 'off',
   },
   overrides: [
     {
-      files: [
-        '**/__tests__/*.{j,t}s?(x)',
-        '**/tests/unit/**/*.spec.{j,t}s?(x)'],
+      files: ['**/__tests__/*.{j,t}s?(x)', '**/tests/unit/**/*.spec.{j,t}s?(x)'],
       env: {
         jest: true,
       },

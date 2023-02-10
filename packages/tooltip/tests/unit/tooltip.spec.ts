@@ -3,6 +3,12 @@ import { mount } from '@vue/test-utils'
 import { install, Tooltip } from '@muku-ui/tooltip'
 import { click, q } from '@muku-ui/shared/tests/utils'
 
+window.ResizeObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  unobserve: jest.fn(),
+  disconnect: jest.fn(),
+}))
+
 /*
 |---------------------------------------------------------------------------
 | Arrange environment
