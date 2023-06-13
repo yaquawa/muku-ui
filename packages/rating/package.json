@@ -27,5 +27,6 @@
   "bugs": {
     "url": "https://github.com/yaquawa/muku-ui/issues"
   },
-  "homepage": "https://github.com/yaquawa/muku-ui/master/packages/rating#readme"
+  "homepage": "https://github.com/yaquawa/muku-ui/master/packages/rating#readme",
+  "gitHead": "3c1d5439716532d6f97eb81bf3c87528230ca706"
 }

@@ -1,4 +1,8 @@
 <template>
+  <component :is="activatorTag" v-bind="activatorAttrs" ref="activator">
+    <slot name="activator"></slot>
+  </component>
+
   <teleport to="body">
     <div
       ref="tooltipElement"
@@ -54,10 +58,6 @@ export default defineComponent({
       type: String,
       default: 'tooltip',
     },
-    activator: {
-      type: [String, Object] as PropType<string | HTMLElement>,
-      required: true,
-    },
     placement: {
       type: String as PropType<Placement | 'auto'>,
       default: 'auto',
@@ -93,6 +93,14 @@ export default defineComponent({
     timeout: {
       type: Number,
     },
+    activatorTag: {
+      type: String,
+      default: 'div',
+    },
+    activatorAttrs: {
+      type: Object,
+      default: () => ({}),
+    },
   },
 
   directives: {
@@ -116,6 +124,7 @@ export default defineComponent({
   },
 
   setup(props) {
+    const activator = ref<HTMLElement>()
     const tooltipElement = ref<HTMLElement | undefined>()
     const arrowElement = ref<HTMLElement | undefined>()
     const show = ref(false)
@@ -143,26 +152,11 @@ export default defineComponent({
       cleanup()
     })
 
-    onMounted(() => {
-      if (typeof props.activator === 'string') {
-        const activator: HTMLElement | null = document.querySelector(props.activator)
+    const unwatch = watch(activator, () => {
+      if (!(activator.value instanceof HTMLElement)) return
 
-        if (!activator) {
-          throw new Error(`The element for '${props.activator}' was not found.`)
-        }
-
-        setupTooltip(activator)
-      } else {
-        const unwatch = watch(
-          () => props.activator,
-          () => {
-            if (!(props.activator instanceof HTMLElement)) return
-
-            unwatch()
-            setupTooltip(props.activator)
-          }
-        )
-      }
+      unwatch()
+      setupTooltip(activator.value)
     })
 
     function setupTooltip(activator: HTMLElement) {
@@ -271,19 +265,24 @@ export default defineComponent({
     }
 
     return {
+      activator,
       show,
       currentPlacement,
-      afterLeave,
-      beforeEnter,
-      afterEnter,
       tooltipStyle,
       tooltipElement,
       arrowElement,
+      afterLeave,
+      beforeEnter,
+      afterEnter,
     }
   },
 })
 
 function isTouchDevice() {
-  return 'ontouchstart' in window || navigator.maxTouchPoints > 0
+  try {
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0
+  } catch (e) {
+    return false
+  }
 }
 </script>

@@ -1,32 +1,31 @@
 <template>
   <div class="container">
     <div>
-      <button id="my-button">Button</button>
-      <tooltip activator="#my-button" placement="bottom" class="tooltip" interactive>Tooltip</tooltip>
-    </div>
-
-    <div>
-      <button id="button-2">Button</button>
-      <tooltip
-        activator="#button-2"
-        :hide-events="[]"
-        placement="top"
-        class="tooltip"
-        offset="10"
-        :arrowPadding="20"
-      >
-        <div>Tooltip 2</div>
-        <div>Tooltip 2</div>
-        <div>Tooltip 2</div>
-        <div>Tooltip 2</div>
-        <div>Tooltip 2</div>
+      <tooltip placement="bottom" class="tooltip" interactive>
+        Tooltip
+        <template #activator>
+          <button>Button</button>
+        </template>
       </tooltip>
     </div>
 
     <div>
-      <button id="button-3">Button</button>
+      <tooltip :hide-events="[]" placement="top" class="tooltip" offset="10" :arrowPadding="20">
+        <div>Tooltip 2</div>
+        <div>Tooltip 2</div>
+        <div>Tooltip 2</div>
+        <div>Tooltip 2</div>
+        <div>Tooltip 2</div>
+
+        <template #activator>
+          <button>Button</button>
+        </template>
+      </tooltip>
+    </div>
+
+    <div>
       <tooltip
-        activator="#button-3"
+        activatorTag="section"
         placement="top-end"
         class="tooltip"
         offset="10"
@@ -39,35 +38,29 @@
         <div>Tooltip 3</div>
         <div>Tooltip 3</div>
         <div>Tooltip 3</div>
+
+        <template #activator>
+          <button>Button</button>
+        </template>
       </tooltip>
     </div>
 
     <div>
-      <button id="button-4" ref="buttonElement">Button</button>
-      <tooltip :activator="buttonElement" placement="auto" class="tooltip" offset="10" :timeout="2000">
+      <tooltip placement="auto" class="tooltip" offset="10" :timeout="2000">
         <div>Tooltip 4</div>
         <div>Tooltip 4</div>
         <div>Tooltip 4</div>
+
+        <template #activator>
+          <button>Button</button>
+        </template>
       </tooltip>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
 import { Tooltip } from '@muku-ui/tooltip'
-
-export default defineComponent({
-  name: 'App',
-  components: {
-    Tooltip,
-  },
-  setup() {
-    const buttonElement = ref<HTMLElement>()
-
-    return { buttonElement }
-  },
-})
 </script>
 
 <style>
