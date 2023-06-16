@@ -1,6 +1,6 @@
 {
   "name": "@muku-ui/copy-to-clipboard",
-  "version": "1.1.20",
+  "version": "1.2.0",
   "description": "Vue copy-to-clipboard component with the most essential features only.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
@@ -9,8 +9,8 @@
     "dist"
   ],
   "dependencies": {
-    "@muku-ui/shared": "^1.1.16",
-    "@muku-ui/tooltip": "^1.1.20"
+    "@muku-ui/shared": "^1.2.0",
+    "@muku-ui/tooltip": "^1.2.0"
   },
   "peerDependencies": {
     "vue": "^3.0.11"
