@@ -12,7 +12,7 @@ let currentOpenEventData: EventData
 let currentCloseEventData: EventData
 
 const defaultInstallOptions: InstallOptions = {
-  backdropStyle: {},
+  backdropStyle: {} as CSSStyleDeclaration,
   registerComponent: true,
   placeCenter: true,
 }
@@ -38,7 +38,7 @@ class Api {
     currentOpenEventData = eventData
 
     if (currentOpenedModals.isEmpty) {
-      Backdrop.ctx.show.value = true
+      Backdrop.show()
       modal.ctx.show.value = true
       currentOpenedModals.push(modalName, modal)
     } else {
@@ -70,7 +70,7 @@ class Api {
 
     if (currentOpenedModals.isEmpty) {
       // close all if no previously opened modals
-      Backdrop.ctx.show.value = false
+      Backdrop.close()
     } else if (reopenPrevModal) {
       // reshow the previously closed modal
       const lastItem = currentOpenedModals.items[currentOpenedModals.length - 1]

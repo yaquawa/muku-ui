@@ -1,4 +1,4 @@
-export function isNuxt(): boolean {
+export function isServer(): boolean {
   try {
     return process.server
   } catch (e) {

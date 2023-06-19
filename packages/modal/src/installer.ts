@@ -1,18 +1,16 @@
 import { api as modalApi } from './Api'
-import { App, createApp } from 'vue'
+import { App } from 'vue'
 import { InstallOptions } from './types'
 import Modal from './components/Modal.vue'
-import Backdrop from './components/Backdrop.vue'
-
-function createBackdrop() {
-  const mountPoint = document.createElement('div')
-  document.body.appendChild(createApp(Backdrop).mount(mountPoint).$el)
-}
+import { isServer } from '@muku-ui/shared'
+import { createBackdrop } from './Backdrop'
 
 export function install(app: App, options: Partial<InstallOptions> = {}) {
   const configs = modalApi.config.set(options)
 
-  createBackdrop()
+  if (!isServer()) {
+    createBackdrop()
+  }
 
   if (configs.get('registerComponent')) {
     app.component('modal', Modal)

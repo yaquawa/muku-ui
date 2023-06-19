@@ -1,7 +1,7 @@
 import { ComponentInternalInstance, Ref } from 'vue'
 
 export interface InstallOptions {
-  backdropStyle: Record<string, any>
+  backdropStyle: CSSStyleDeclaration
   registerComponent: boolean
   placeCenter: boolean
 }
@@ -40,11 +40,3 @@ export interface BackdropProps {
 export interface BackdropComponentInternalInstance extends ComponentInternalInstance {
   props: BackdropProps
 }
-
-export interface BackdropContext {
-  show: Ref<boolean>
-
-  close(): void
-}
-
-export type BackdropModel = Model<BackdropComponentInternalInstance, BackdropContext>
