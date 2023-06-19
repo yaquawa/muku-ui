@@ -1,10 +1,14 @@
 <template>
-  <component :is="as" @click="copyToClipboard" ref="rootElement" style="position: relative">
-    <slot></slot>
-    <Tooltip :activator="rootElement" v-bind="mergedTooltipProps">
-      {{ message }}
-    </Tooltip>
-  </component>
+  <Tooltip
+    :activator-tag="as"
+    :activator-attrs="{ style: 'position: relative', onClick: copyToClipboard }"
+    v-bind="mergedTooltipProps"
+  >
+    {{ message }}
+    <template #activator>
+      <slot></slot>
+    </template>
+  </Tooltip>
 </template>
 
 <script lang="ts">
