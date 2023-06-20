@@ -1,6 +1,8 @@
+declare const global: any
+
 export function isServer(): boolean {
   try {
-    return process.server
+    return globalThis === global
   } catch (e) {
     return false
   }
