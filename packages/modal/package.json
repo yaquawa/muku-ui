@@ -10,7 +10,7 @@
     "assets"
   ],
   "dependencies": {
-    "@muku-ui/shared": "^1.2.1",
+    "@muku-ui/shared": "^1.2.2",
     "mapstack": "^1.0.2"
   },
   "peerDependencies": {
