@@ -1,6 +1,6 @@
 {
   "name": "muku-ui",
-  "version": "1.2.1",
+  "version": "1.2.3",
   "description": "Vue 3 UI components with dead minimal functions.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
@@ -12,7 +12,7 @@
     "@muku-ui/copy-to-clipboard": "^1.2.1",
     "@muku-ui/drop-target": "^1.2.0",
     "@muku-ui/in-view": "^1.2.0",
-    "@muku-ui/modal": "^1.2.1",
+    "@muku-ui/modal": "^1.2.3",
     "@muku-ui/progress": "^1.2.0",
     "@muku-ui/rating": "^1.2.0",
     "@muku-ui/shared": "^1.2.1",
