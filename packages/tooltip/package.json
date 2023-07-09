@@ -10,7 +10,7 @@
     "assets"
   ],
   "dependencies": {
-    "@floating-ui/dom": "^1.2.0",
+    "@floating-ui/dom": "^1.4.4",
     "@muku-ui/shared": "^1.2.0"
   },
   "peerDependencies": {

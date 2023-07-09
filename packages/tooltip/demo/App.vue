@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div>
-      <tooltip placement="bottom" class="tooltip" interactive>
+      <tooltip placement="bottom" class="tooltip" :offset="-20" interactive>
         Tooltip
         <template #activator>
           <button>Button</button>
@@ -10,7 +10,7 @@
     </div>
 
     <div>
-      <tooltip :hide-events="[]" placement="top" class="tooltip" offset="10" :arrowPadding="20">
+      <tooltip :hide-events="[]" placement="top" class="tooltip" :offset="20" :arrowPadding="20">
         <div>Tooltip 2</div>
         <div>Tooltip 2</div>
         <div>Tooltip 2</div>
@@ -46,7 +46,7 @@
     </div>
 
     <div>
-      <tooltip placement="auto" class="tooltip" offset="10" :timeout="2000">
+      <tooltip placement="auto" class="tooltip" :offset="20" :timeout="2000">
         <div>Tooltip 4</div>
         <div>Tooltip 4</div>
         <div>Tooltip 4</div>

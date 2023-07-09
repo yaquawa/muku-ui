@@ -162,12 +162,6 @@ export default defineComponent({
     function setupTooltip(activator: HTMLElement) {
       const middleware: Middleware[] = []
 
-      if (props.placement === 'auto') {
-        middleware.push(autoPlacement())
-      } else {
-        middleware.push(flip())
-      }
-
       if (props.offset) {
         middleware.push(
           offset(
@@ -176,6 +170,12 @@ export default defineComponent({
               : { mainAxis: props.offset[0], crossAxis: props.offset[1] }
           )
         )
+      }
+
+      if (props.placement === 'auto') {
+        middleware.push(autoPlacement())
+      } else {
+        middleware.push(flip())
       }
 
       if (props.arrow) {
